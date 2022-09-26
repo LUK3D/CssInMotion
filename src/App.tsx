@@ -1,32 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { Slider } from '@mantine/core'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="App w-screen h-screen bg-dark-600 grid grid-cols-12">
+      <div className='h-full  col-span-9 bg-dark-900 flex flex-col'>
+          <div className="2dView w-full h-full">
+
+          </div>
+          <div className="layers-container w-full h-[300px] bg-dark-600 border-t border-dark-900 flex">
+            <div className=" w-2/7 border-r border-dark-900 ">
+              <div className='w-full flex layers p-2 border-b border-dark-900'>
+                 <p>LAYERS</p>
+              </div>
+            </div>
+            <div className=" w-5/7 bg-dark-900">
+              <div className='w-full  layers p-2 border-b border-dark-900 bg-dark-600 flex flex-col h-10'>
+              <Slider
+              size='sm'
+                  marks={[
+                    { value: 20, label: '20%' },
+                    { value: 50, label: '50%' },
+                    { value: 80, label: '80%' },
+                  ]}
+                />  
+              </div>
+            </div>
+
+          </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div className='h-full  overflow-y-auto col-span-3 border-l border-dark-900 '></div>
     </div>
   )
 }
