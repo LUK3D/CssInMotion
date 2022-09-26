@@ -1,11 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import './index.css'
+import { MantineProvider, Text } from '@mantine/core';
 import 'virtual:windi.css'
+import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+     <MantineProvider withGlobalStyles withNormalizeCSS>
+        <App />
+     </MantineProvider>
   </React.StrictMode>
 )
