@@ -8,32 +8,26 @@ interface ILayer{
 export function LayerFrames(args:ILayer) {
   const [opened, setOpened] = useState(false);
 
+  
+
   return (
     <div className='w-full flex flex-col border-b border-dark-900'>
-      <Button id={args.selector} onClick={() => setOpened((o) => !o)} color='orange' className={`rounded-none flex bg-green-500 hover:bg-green-500 ${opened?'border-b border-dark-900 border-t-0':''} `}>
+      <Button id={"key_"+args.selector} onClick={() => setOpened((o) => !o)} color='orange' className={` pointer-events-none rounded-none flex bg-blue-500 hover:bg-blue-500 ${opened?'border-b border-dark-900 border-t-0':''} `}>
        
       </Button>
 
       <Collapse in={opened} className="  bg-blue-900 bg-opacity-20">
         <div className='flex items-center justify-between py-2 border-b border-dark-800 pr-5 pl-10  '>
-            <div className='flex items-center'>
-                <div className='w-2.5 h-2.5 bg-gray-500 hover:bg-orange-500 mr-3 transform rotate-45 rounded-sm cursor-pointer' title='Add keyframe'></div>  <p>Position</p>
+            <div className='flex items-center py-1.7'>
+                <div className='w-2.5 h-2.5 bg-gray-500 hover:bg-orange-500 mr-3 transform rotate-45 rounded-sm cursor-pointer' title='Add keyframe'></div>  
             </div>
-            <div title='toggel animation' className='cursor-pointer'>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            </div>
+           
         </div>
         <div className='flex items-center justify-between py-2 border-b border-dark-800 pr-5 pl-10  '>
-            <div className='flex items-center'>
-                <div className='w-2.5 h-2.5 bg-gray-500 hover:bg-orange-500 mr-3 transform rotate-45 rounded-sm cursor-pointer' title='Add keyframe'></div>  <p>Rotation</p>
+            <div className='flex items-center py-1.7'>
+                <div className='w-2.5 h-2.5 bg-gray-500 hover:bg-orange-500 mr-3 transform rotate-45 rounded-sm cursor-pointer' title='Add keyframe'></div> 
             </div>
-            <div title='toggel animation' className='cursor-pointer'>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            </div>
+   
         </div>
        
       </Collapse>

@@ -14,3 +14,31 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+
+/* width */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+*::-webkit-scrollbar-track {
+  background: #00000031;
+}
+
+/* Handle */
+*::-webkit-scrollbar-thumb {
+  background: rgba(0, 95, 249, 0.356);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 95, 249, 0.578);
+
+}
+
+#layers_frames::-webkit-scrollbar {
+  width: 10px;
+  display: none;
+}

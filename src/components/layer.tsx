@@ -11,13 +11,13 @@ export function Layer(args:ILayer) {
 
 
   function openFrames(){
-    document.getElementById(args.selector)?.click();
+    document.getElementById('key_'+args.selector)?.click();
   }
 
 
   return (
     <div className='w-full flex flex-col border-b border-dark-900'>
-      <Button onClick={() => {setOpened((o) => !o); openFrames();}} color='orange' className={`rounded-none flex bg-transparent ${opened?'border-b border-dark-900 border-t-0':''} `}>
+      <Button id={'layer_'+args} onClick={() => {setOpened((o) => !o); openFrames();}} color='orange' className={`rounded-none flex bg-transparent ${opened?'border-b border-dark-900 border-t-0':''} `}>
         <div className='mr-2'>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`transition transform  ${opened?'rotate-90':''} w-4 h-4`}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
