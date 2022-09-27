@@ -3,6 +3,7 @@ import { Button, Collapse } from '@mantine/core';
 
 interface ILayer{
   selector:string,
+  
 }
 
 export function LayerFrames(args:ILayer) {
@@ -11,7 +12,7 @@ export function LayerFrames(args:ILayer) {
   
 
   return (
-    <div className='w-full flex flex-col border-b border-dark-900'>
+    <div  className='w-full flex flex-col border-b border-dark-900'>
       <Button id={"key_"+args.selector} onClick={() => setOpened((o) => !o)} color='orange' className={` pointer-events-none rounded-none flex bg-blue-500 hover:bg-blue-500 ${opened?'border-b border-dark-900 border-t-0':''} `}>
        
       </Button>
