@@ -1,11 +1,12 @@
 import { Checkbox, ColorInput, NumberInput, SegmentedControl, Slider, TextInput, Tooltip } from '@mantine/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css'
 import { CIMotionDropZone } from './components/dropZone';
 import { Vector2 } from './components/interfaces/timeline';
 import { Layer } from './components/layer'
 import { LayerFrames } from './components/layerFrames'
 import { Poperty } from './components/Property';
+import createPanZoom from "panzoom";
 
 function App() {
 
@@ -57,6 +58,13 @@ function App() {
       return time_convert(Math.min(Math.max(num, 0), 1000)).split('.')[0]; 
     }
 
+    useEffect(() => {
+      let zommEl = createPanZoom(document.getElementById('canvas')!);
+    
+     
+    }, [])
+    
+
     
 
   function setScrollY(scroll:number){
@@ -67,11 +75,17 @@ function App() {
   return (
     <div className="App w-screen h-screen bg-dark-600 grid grid-cols-12 overflow-y-hidden">
       <div id='editor' className='h-full  col-span-9 bg-dark-900 flex flex-col'>
-          <div className="2dView w-full h-full relative group">
+          <div className="2dView w-full h-full relative group flex flex-col overflow-hidden">
+
+            <div id='canvas' className="canvas w-full h-full relative flex justify-center items-center">
+                <div className="paper w-[400px] h-[400px] bg-white">
+                  
+                </div>
+            </div>
 
           <div className='absolute text-sm bottom-0 w-full flex justify-between items-center py-2 px-2'>
               <button>🔥</button>
-              <div className="controls transform  p-2 fill-light-100 rounded-md flex items-center">
+              <div className="controls transform  p-2 fill-light-100 rounded-md flex items-center bg-dark-800 bg-opacity-70">
                 <p>00:{normaliZe(trackPosition.x,0,10)}</p>
                 <div className='mx-5'>
                   <button className='mx-1'>
