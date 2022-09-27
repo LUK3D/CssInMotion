@@ -34,26 +34,23 @@ export function LayerFrames(args:ILayer) {
   return (
     <div  className='w-full flex flex-col border-b border-dark-900' onDragOver={(e)=>setOffset(e.currentTarget.offsetLeft)} onMouseMove={(e)=>setOffset(e.currentTarget.offsetLeft)} >
       <Button id={"key_"+args.selector} onClick={() => setOpened((o) => !o)} color='orange' className={` pointer-events-none rounded-none flex bg-blue-500 hover:bg-blue-500 ${opened?'border-b border-dark-900 border-t-0':''} `}>
-       
       </Button>
 
       <Collapse in={opened} className="  bg-blue-900 bg-opacity-20">
       <div className='flex items-center justify-between py-5 border-b border-dark-800 pr-5 pl-10  relative'>
         {
           RotationFrames.map((fram)=>{
-          return <Keyframe initialPosition={fram}  currentMousePositionOnTrack={args.currentMousePositiononTrack}></Keyframe>
+          return <Keyframe key={'rotation_key_'+fram.x} initialPosition={fram}  currentMousePositionOnTrack={args.currentMousePositiononTrack}></Keyframe>
           })
         }
         </div>
         <div className='flex items-center justify-between py-5 border-b border-dark-800 pr-5 pl-10  relative'>
-
           {
             PositionFrames.map((fram)=>{
-             return <Keyframe initialPosition={fram}  currentMousePositionOnTrack={args.currentMousePositiononTrack}></Keyframe>
+             return <Keyframe key={'position_key_'+fram.x} initialPosition={fram}  currentMousePositionOnTrack={args.currentMousePositiononTrack}></Keyframe>
             })
           }
         </div>
-       
       </Collapse>
     </div>
   );
