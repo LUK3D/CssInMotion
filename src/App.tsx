@@ -1,8 +1,10 @@
+import { NumberInput } from '@mantine/core';
 import { useState } from 'react';
 import './App.css'
 import { Vector2 } from './components/interfaces/timeline';
 import { Layer } from './components/layer'
 import { LayerFrames } from './components/layerFrames'
+import { Poperty } from './components/Property';
 
 function App() {
 
@@ -140,7 +142,46 @@ function App() {
             </div>
           </div>
       </div>
-      <div className='h-full  overflow-y-auto col-span-3 border-l border-dark-900 '></div>
+      <div className='h-full  overflow-y-auto col-span-3 border-l border-dark-900 flex flex-col'>
+              <div className="header p-2 border-b border-dark-900">
+                <p>Properties</p>
+              </div>
+              <div className='h-full w-full overflow-y-auto flex flex-col'>
+                  <Poperty tittle='Transform'
+                  body={
+                    <div className='w-full p-5 flex flex-col'>
+                      <div className='flex items-center justify-between mb-3'>
+                        <div className='w-2/6 flex items-center'>
+                          <p>Position</p>
+                        </div>
+                        <div className='w-4/5 flex'>
+                          <NumberInput icon={'X'}className='mx-2'/>
+                          <NumberInput icon={'Y'}className='mx-2'/>
+                        </div>
+                      </div>
+                      <div className='flex items-center justify-between mb-3'>
+                        <div className='w-2/6 flex items-center'>
+                          <p>Scale</p>
+                        </div>
+                        <div className='w-4/5 flex'>
+                          <NumberInput icon={'W'}className='mx-2'/>
+                          <NumberInput icon={'H'}className='mx-2'/>
+                        </div>
+                      </div>
+                      <div className='flex items-center justify-between mb-3'>
+                        <div className='w-2/6 flex items-center'>
+                          <p>Rotation</p>
+                        </div>
+                        <div className='w-4/5 flex'>
+                          <NumberInput icon={'º'} className='mx-2'/>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                  ></Poperty>
+              </div>
+
+      </div>
     </div>
   )
 }
