@@ -12,6 +12,7 @@ function App() {
     ])
     const [trackPosition, setTrackPosition] = useState<Vector2>({x:20, y:0});
     const [dragging, setDragging] = useState<boolean>(false);
+    const [mousePosOnFramesTrack, setMousePosOnFramesTrack] = useState<Vector2>({x:0, y:0});
 
 
     function moveTrackX(x:number){
@@ -35,7 +36,7 @@ function App() {
 
   return (
     <div className="App w-screen h-screen bg-dark-600 grid grid-cols-12 overflow-y-hidden">
-      <div className='h-full  col-span-9 bg-dark-900 flex flex-col'>
+      <div id='editor' className='h-full  col-span-9 bg-dark-900 flex flex-col'>
           <div className="2dView w-full h-full">
 
           </div>
@@ -56,13 +57,19 @@ function App() {
 
            
 
-            <div className=" w-5/7 bg-dark-900 flex flex-col"  onMouseMove={(e)=>moveTrackX(e.pageX-e.currentTarget.offsetLeft)}>
+            <div id='animation_layers' className=" w-5/7 bg-dark-900 flex flex-col"   onMouseMove={(e)=>{
+              moveTrackX(e.pageX-e.currentTarget.offsetLeft);
+            }} onDragOver={(e)=>{
+              setMousePosOnFramesTrack({x:e.pageX-e.currentTarget.offsetLeft,y:e.pageY-e.currentTarget.offsetTop})
+            }}
+            
+            >
               <div onClick={(e)=>moveTrackXByClick(e.pageX-e.currentTarget!.offsetLeft)} className='w-full  layers p-2 border-b border-dark-900 bg-dark-600 flex  items-center justify-between h-12 relative'>
                 {
                   frames.map((x)=><p key={"frame_"+x}>{x}s</p>)
                 }
 
-<div  onMouseUp={()=>setDragging(false)} onMouseDown={(e)=>setDragging(true)} className={`${dragging?'':'transition-all'} select-none   fill-white draggable timeline_position_bar absolute  h-[400px] w-0.7 bg-light-300 flex flex-col items-center top-[80%] z-20`} style={{
+          <div  onMouseUp={()=>setDragging(false)} onMouseDown={(e)=>setDragging(true)} className={`${dragging?'':'transition-all'} select-none   fill-white draggable timeline_position_bar absolute  h-[400px] w-0.7 bg-light-300 flex flex-col items-center top-[80%] z-20`} style={{
                 left:trackPosition.x,
                 cursor:'w-resize',
               }}>
@@ -78,7 +85,7 @@ function App() {
                 e.target.scrollTop
                 )}>
               {
-                [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map((key)=><LayerFrames  selector={key.toString()} key={'key_'+key}></LayerFrames>)
+                [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map((key)=><LayerFrames currentMousePositiononTrack={mousePosOnFramesTrack}  selector={key.toString()} key={'key_'+key}></LayerFrames>)
               }
 
 
