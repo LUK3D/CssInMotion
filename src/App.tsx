@@ -1,4 +1,4 @@
-import { NumberInput } from '@mantine/core';
+import { NumberInput, Slider } from '@mantine/core';
 import { useState } from 'react';
 import './App.css'
 import { Vector2 } from './components/interfaces/timeline';
@@ -176,6 +176,23 @@ function App() {
                           <NumberInput icon={'º'} className='mx-2'/>
                         </div>
                       </div>
+                    </div>
+                  }
+                  ></Poperty>
+                  <Poperty tittle='Layer'
+                  body={
+                    <div className='w-full p-5 flex flex-col'>
+                      <div className='flex items-center justify-between mb-3'>
+                        <div className='w-2/6 flex items-center'>
+                          <p>Opacity</p>
+                        </div>
+                        <div className='w-4/5 '>
+                        <Slider
+                            
+                          />
+                        </div>
+                      </div>
+                      
                     </div>
                   }
                   ></Poperty>
