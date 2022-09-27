@@ -36,19 +36,28 @@ function App() {
               }
               </div>
             </div>
+
             <div className=" w-5/7 bg-dark-900 flex flex-col">
               <div className='w-full  layers p-2 border-b border-dark-900 bg-dark-600 flex  items-center justify-between h-12'>
                 {
                   frames.map((x)=><p>{x}s</p>)
                 }
               </div>
-              <div className='flex flex-col overflow-y-auto h-full ' id='layers_frames' onScroll={(e)=>setScrollY(
+              <div className='flex flex-col overflow-y-auto h-full relative' id='layers_frames' onScroll={(e)=>setScrollY(
                 //@ts-ignore
                 e.target.scrollTop
                 )}>
               {
                 [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map((key)=><LayerFrames selector={key.toString()} key={'keys_'+key}></LayerFrames>)
               }
+
+
+
+              <div className="timeline_position_bar absolute right-2/4 h-full w-0.7 bg-light-300 flex flex-col items-center">
+                <div className='w-4 h-4 bg-light-300 rounded-sm'>
+
+                </div>
+              </div>
               
 
               </div>
