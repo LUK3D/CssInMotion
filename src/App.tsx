@@ -78,7 +78,8 @@ function App() {
           <div className="2dView w-full h-full relative group flex flex-col overflow-hidden">
 
             <div id='canvas' className="canvas w-full h-full relative flex justify-center items-center">
-                <div className="paper w-[400px] h-[400px] bg-white">
+                <div className="paper w-[400px] h-[400px] bg-white relative overflow-hidden">
+
                   
                 </div>
             </div>
