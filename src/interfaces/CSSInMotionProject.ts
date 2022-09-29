@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { Vector2 } from "./timeline";
 
 /**
@@ -18,6 +19,7 @@ export interface ILayer {
     show_keyframes: boolean;
     animated:       boolean;
     attributes:     Attribute[];
+
 }
 
 /**

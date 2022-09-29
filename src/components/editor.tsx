@@ -1,6 +1,6 @@
 import createPanZoom from 'panzoom';
 import React, { SetStateAction, useEffect, useState } from 'react';
-import { CSSInMotionProject } from '../interfaces/CSSInMotionProject';
+import { CSSInMotionProject, ILayer } from '../interfaces/CSSInMotionProject';
 import { Vector2 } from '../interfaces/timeline';
 import { normaliZe, setScrollY } from '../utils';
 import { Layer } from './layer'
@@ -9,12 +9,14 @@ import { Rectangle } from './primitives/rectangle';
 
 interface IEditor{
     project: CSSInMotionProject,
-    setProject:Function
+    setProject:Function,
 }
 
 
 
 export const Editor = (args:IEditor)=>{
+    let baseEl = <div className='w-40 h-40 bg-gray-200'></div>;
+
     const [dragging, setDragging] = useState<boolean>(false);
     
     const [frames, setFrames] = useState([
@@ -45,6 +47,48 @@ export const Editor = (args:IEditor)=>{
       }
     }
 
+    function addSHape(name:string, initialPosition:Vector2 = {x:0,y:0}){
+       
+        
+        args.setProject({...args.project,layers:[
+            
+            ...args.project.layers,
+            {
+                animated:true,
+                attributes:  [
+                  {
+                      keyframes:[
+                        {
+                            position:{x:40,y:0},
+                            value:'rgb(0,0,0)'
+                        },
+                        {
+                            position:{x:0,y:0},
+                            value:'rgb(0,0,0)'
+                        },
+                        {
+                            position:{x:150,y:150},
+                            value:'rgb(0,0,0)'
+                        },
+                      ],
+                      name:'Position'
+                  },
+                  {
+                      keyframes:[],
+                      name:'Rotation'
+                  },
+                  {
+                      keyframes:[],
+                      name:'Scale'
+                  },
+                ],
+                name:name,
+                show_keyframes:true,
+                
+              },
+        ] })
+      }
+
     return (
         <div id='editor' className='h-full  col-span-9 bg-dark-900 flex flex-col'>
           <div className="2dView w-full h-full relative group flex flex-col overflow-hidden">
@@ -52,12 +96,12 @@ export const Editor = (args:IEditor)=>{
             <div className='grid grid-cols-12 h-full w-full'>
               <div className='h-full col-span-1 bg-dark-600 z-20 flex flex-col items-center'>
                   <p className='p-3 border-0 border-b border-dark-900 w-full text-center'>Primitives</p>
-                  <button className='p-2'>
+                  <button onClick={()=>addSHape('Rectangle',{x:30,y:30})} className='p-2'>
                          <div className=' text-xs flex flex-col justify-center items-center w-20 h-20 bg-dark-700 border rounded-md border-dark-300'>
                           Rectangle
                          </div>
                   </button>
-                  <button className='p-2'>
+                  <button onClick={()=>addSHape('Circle',{x:0,y:0})} className='p-2'>
                          <div className=' text-xs flex flex-col justify-center items-center w-20 h-20 bg-dark-700 border rounded-full border-dark-300'>
                           Circle
                          </div>
@@ -65,10 +109,12 @@ export const Editor = (args:IEditor)=>{
               </div>
               <div id='canvas' className="col-span-10 canvas h-full relative flex justify-center items-center">
                   <div className="paper w-[400px] h-[400px] bg-white relative ">
-                      <Rectangle position={{x:0,y:0}}></Rectangle>
-
-                      
-
+                      {
+                        args.project.layers.map((layer)=>{
+                            return <div className='w-40 h-40 bg-gray-200 absolute' style={{
+                            }}></div>
+                        })
+                      }
                   </div>
               </div>
             </div>
@@ -110,11 +156,9 @@ export const Editor = (args:IEditor)=>{
                 e.target.scrollTop
                 )}>
               {
-                args.project.layers.map((layer, index)=>{
-                    return args.project.layers.map((layers)=>{
-                        return <Layer  text={layer.name} selector={`${index}`} key={`layer_${index}`} layer={layers}></Layer>
+                     args.project.layers.map((layer,index)=>{
+                        return <Layer  text={layer.name} selector={`${index}`} key={`layer_${index}`} layer={layer}></Layer>
                     })
-                })
               }
               </div>
             </div>
