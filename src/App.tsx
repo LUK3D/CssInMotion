@@ -6,6 +6,7 @@ import { CIMotionDropZone } from './components/dropZone';
 import { Poperty } from './components/Property';
 import { CSSInMotionProject } from './interfaces/CSSInMotionProject';
 import { Editor } from './components/editor';
+import { Welcome } from './components/welcome';
 
 function App() {
 
@@ -57,6 +58,7 @@ function App() {
 
   return (
     <div className="App w-screen h-screen bg-dark-600 grid grid-cols-12 overflow-y-hidden">
+      <Welcome></Welcome>
       <Editor project={project} setProject={setProject}></Editor>
       <div className='h-full  overflow-y-auto col-span-3 border-l border-dark-900 flex flex-col'>
               <div className="header p-2 border-b border-dark-900">
