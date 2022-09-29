@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Vector2 } from "./interfaces/timeline";
+import { Vector2 } from "../interfaces/timeline";
 
 interface IKeyframe {
     currentMousePositionOnTrack: Vector2

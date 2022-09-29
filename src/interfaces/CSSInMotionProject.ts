@@ -1,17 +1,19 @@
+import { Vector2 } from "./timeline";
+
 /**
  * ## ✨ Css In Motion Base
  * Defines the file structure for the Css In Motion Project
  */
 export interface CSSInMotionProject {
     animation: string;
-    layers:    Layer[];
+    layers:    ILayer[];
 }
 
 /**
  * ## 🚀 Layer
  * Represents Each element o schene
  */
-export interface Layer {
+export interface ILayer {
     name:           string;
     show_keyframes: boolean;
     animated:       boolean;
@@ -32,6 +34,6 @@ export interface Attribute {
  * Its a serie of points that takes the change of the attribute over time
  */
 export interface Keyframe {
-    position: number;
+    position: Vector2;
     value:    string;
 }
