@@ -1,0 +1,22 @@
+{
+    "animation":"My Animation",
+    "layers":[
+        {
+            "name":"Shape01",
+            "show_keyframes":false,
+            "animated":false,
+            "attributes":[
+                {
+                    "name":"position",
+                    "keyframes":[
+                        {
+                            "position":0,
+                            "property":"position",
+                            "value":"2px 30x"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
