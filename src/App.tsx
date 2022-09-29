@@ -7,6 +7,7 @@ import { Layer } from './components/layer'
 import { LayerFrames } from './components/layerFrames'
 import { Poperty } from './components/Property';
 import createPanZoom from "panzoom";
+import { Rectangle } from './components/primitives/rectangle';
 
 function App() {
 
@@ -77,15 +78,32 @@ function App() {
       <div id='editor' className='h-full  col-span-9 bg-dark-900 flex flex-col'>
           <div className="2dView w-full h-full relative group flex flex-col overflow-hidden">
 
-            <div id='canvas' className="canvas w-full h-full relative flex justify-center items-center">
-                <div className="paper w-[400px] h-[400px] bg-white relative overflow-hidden">
+            <div className='grid grid-cols-12 h-full w-full'>
+              <div className='h-full col-span-1 bg-dark-600 z-20 flex flex-col items-center'>
+                  <p className='p-3 border-0 border-b border-dark-900 w-full text-center'>Primitives</p>
+                  <button className='p-2'>
+                         <div className=' text-xs flex flex-col justify-center items-center w-20 h-20 bg-dark-700 border rounded-md border-dark-300'>
+                          Rectangle
+                         </div>
+                  </button>
+                  <button className='p-2'>
+                         <div className=' text-xs flex flex-col justify-center items-center w-20 h-20 bg-dark-700 border rounded-full border-dark-300'>
+                          Circle
+                         </div>
+                  </button>
+              </div>
+              <div id='canvas' className="col-span-10 canvas h-full relative flex justify-center items-center">
+                  <div className="paper w-[400px] h-[400px] bg-white relative ">
+                      <Rectangle position={{x:0,y:0}}></Rectangle>
 
-                  
-                </div>
+                      
+
+                  </div>
+              </div>
             </div>
 
           <div className='absolute text-sm bottom-0 w-full flex justify-between items-center py-2 px-2'>
-              <button>🔥</button>
+              <button className='w-1/3'>🔥</button>
               <div className="controls transform  p-2 fill-light-100 rounded-md flex items-center bg-dark-800 bg-opacity-70">
                 <p>00:{normaliZe(trackPosition.x,0,10)}</p>
                 <div className='mx-5'>
