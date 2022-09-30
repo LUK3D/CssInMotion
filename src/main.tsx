@@ -5,7 +5,7 @@ import { MantineProvider, Text } from '@mantine/core';
 import 'virtual:windi.css'
 import './index.css'
 
-import store from './redux/store';
+import {store} from './redux/store';
 import { Provider } from "react-redux";
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

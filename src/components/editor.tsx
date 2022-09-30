@@ -2,6 +2,8 @@ import createPanZoom from 'panzoom';
 import React, { SetStateAction, useEffect, useState } from 'react';
 import { CSSInMotionProject, ILayer } from '../interfaces/CSSInMotionProject';
 import { Vector2 } from '../interfaces/timeline';
+import { useAppDispatch } from '../redux/hooks';
+import { addLayer } from '../redux/projectSlice';
 import { normaliZe, setScrollY } from '../utils';
 import { Layer } from './layer'
 import { LayerFrames } from './layerFrames'
@@ -9,12 +11,16 @@ import { Rectangle } from './primitives/rectangle';
 
 interface IEditor{
     project: CSSInMotionProject,
-    setProject:Function,
 }
 
 
 
 export const Editor = (args:IEditor)=>{
+
+    const dispatcher = useAppDispatch();
+
+
+
     let baseEl = <div className='w-40 h-40 bg-gray-200'></div>;
 
     const [dragging, setDragging] = useState<boolean>(false);
@@ -48,45 +54,41 @@ export const Editor = (args:IEditor)=>{
     }
 
     function addSHape(name:string, initialPosition:Vector2 = {x:0,y:0}){
-       
+      dispatcher(addLayer({
+        animated:true,
+        attributes:  [
+          {
+              keyframes:[
+                {
+                    position:{x:40,y:0},
+                    value:'rgb(0,0,0)'
+                },
+                {
+                    position:{x:0,y:0},
+                    value:'rgb(0,0,0)'
+                },
+                {
+                    position:{x:150,y:150},
+                    value:'rgb(0,0,0)'
+                },
+              ],
+              name:'Position'
+          },
+          {
+              keyframes:[],
+              name:'Rotation'
+          },
+          {
+              keyframes:[],
+              name:'Scale'
+          },
+        ],
+        name:name,
+        show_keyframes:true,
         
-        args.setProject({...args.project,layers:[
-            
-            ...args.project.layers,
-            {
-                animated:true,
-                attributes:  [
-                  {
-                      keyframes:[
-                        {
-                            position:{x:40,y:0},
-                            value:'rgb(0,0,0)'
-                        },
-                        {
-                            position:{x:0,y:0},
-                            value:'rgb(0,0,0)'
-                        },
-                        {
-                            position:{x:150,y:150},
-                            value:'rgb(0,0,0)'
-                        },
-                      ],
-                      name:'Position'
-                  },
-                  {
-                      keyframes:[],
-                      name:'Rotation'
-                  },
-                  {
-                      keyframes:[],
-                      name:'Scale'
-                  },
-                ],
-                name:name,
-                show_keyframes:true,
-                
-              },
-        ] })
+      }));
+    
+      
       }
 
     return (
