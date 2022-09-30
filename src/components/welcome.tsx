@@ -36,14 +36,16 @@ export function Welcome() {
             </a>
             </div>
 
-            {/* <div>
+            {
+            /* <div>
               <p>{count}</p>
 
               <div>
                 <button onClick={()=>dispatch(increment())} className='p-3 px-10 mx-2 border'>+</button>
                 <button onClick={()=>dispatch(decrement())} className='p-3 px-10 mx-2 border'>-</button>
               </div>
-            </div> */}
+            </div> */
+            }
 
             <button onClick={()=>setOpened(false)} className='px-10 py-4 mb-5 border border-orange-500 transform transition hover:scale-110  rounded-lg bg-orange-700 shadow-2xl text-white'>Let's Try it out! </button>
         </div>
