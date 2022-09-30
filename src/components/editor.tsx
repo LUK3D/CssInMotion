@@ -110,8 +110,8 @@ export const Editor = (args:IEditor)=>{
               <div id='canvas' className="col-span-10 canvas h-full relative flex justify-center items-center">
                   <div className="paper w-[400px] h-[400px] bg-white relative ">
                       {
-                        args.project.layers.map((layer)=>{
-                            return <div className='w-40 h-40 bg-gray-200 absolute' style={{
+                        args.project.layers.map((layer,index)=>{
+                            return <div key={layer.name + index} className='w-40 h-40 bg-gray-200 absolute' style={{
                             }}></div>
                         })
                       }

@@ -26,8 +26,8 @@ export function LayerFrames(args:Layer) {
 
       <Collapse in={opened} className="  bg-blue-900 bg-opacity-20">
       {
-        args.attributes.map((attribute)=>{
-          return <div className='flex items-center justify-between py-5 border-b border-dark-800 pr-5 pl-10  relative'>
+        args.attributes.map((attribute,index)=>{
+          return <div key={attribute.name+index} className='flex items-center justify-between py-5 border-b border-dark-800 pr-5 pl-10  relative'>
           {attribute.keyframes.map((keyframe)=>{
            return <Keyframe key={'position_key_'+keyframe.position.x} initialPosition={keyframe.position}  currentMousePositionOnTrack={args.currentMousePositiononTrack}></Keyframe>
           })}

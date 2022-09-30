@@ -29,8 +29,8 @@ export function Layer(args:Layer) {
 
       <Collapse in={opened} className="  bg-blue-900 bg-opacity-20">
        {
-        args.layer.attributes.map((attribute)=>{
-          return  <div className='flex items-center justify-between py-2 border-b border-dark-800 pr-5 pl-10  '>
+        args.layer.attributes.map((attribute, index)=>{
+          return  <div key={'layer_'+attribute.name+index} className='flex items-center justify-between py-2 border-b border-dark-800 pr-5 pl-10  '>
           <div className='flex items-center'>
               <div className='w-2.5 h-2.5 bg-gray-500 hover:bg-orange-500 mr-3 transform rotate-45 rounded-sm cursor-pointer' title='Add keyframe'></div>  <p>{attribute.name}</p>
           </div>
