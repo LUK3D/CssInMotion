@@ -8,36 +8,6 @@ import { RootState } from "./store";
 let initialState:CSSInMotionProject = {
     animation:"My First ANimation",
     layers:[
-      {
-   
-        animated:true,
-        attributes:[
-          {
-            keyframes:[
-              {
-                position:{x:40,y:0},
-                value:'rgb(0,0,0)'
-              }
-            ],
-            name:"Position"
-          },
-          {
-            keyframes:[
-              {
-                position:{x:40,y:0},
-                value:'rgb(0,0,0)'
-              },
-              {
-                position:{x:140,y:0},
-                value:'rgb(0,0,0)'
-              },
-            ],
-            name:"Scale"
-          },
-        ],
-        name:"Shape 01",
-        show_keyframes:true
-      },
      
     ]
   };

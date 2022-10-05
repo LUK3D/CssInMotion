@@ -1,5 +1,5 @@
 import { Checkbox, ColorInput, NumberInput, SegmentedControl, Slider, TextInput, Tooltip } from "@mantine/core";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ILayer } from "../interfaces/CSSInMotionProject";
 import { Vector2 } from "../interfaces/timeline";
 import { useAppDispatch } from "../redux/hooks";
@@ -12,19 +12,31 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
   var selectedId = '';
   let el: HTMLElement | null
 
+  const [animatedProps,setAnimatedPros] = useState({});
+
   function animateElement(prop:string, value:string){
-
-   
-
-
     if(args.selectedLayer?.name || selectedId){
-    
+
+      //@ts-ignore
+      let data = {...animatedProps};
 
       el = document.getElementById(args.selectedLayer!.name??selectedId);
       el!.style.position = 'absolute';
      
-    //@ts-ignore
+      //@ts-ignore
       el!.style[prop] = value;
+       //@ts-ignore
+       if(!data[args.trackPosition.x]){
+        //@ts-ignore
+        data[args.trackPosition.x] = {};
+      }
+      //----------------------------------------------------------------
+      //@ts-ignore
+      data[args.trackPosition.x][prop] = value;
+      setAnimatedPros(data);
+      //----------------------------------------------------------------
+      
+      console.log(animatedProps);
     }
     
   }
@@ -302,4 +314,8 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
 
       </div>
     );
+}
+
+function setState(arg0: {}): [any, any] {
+  throw new Error("Function not implemented.");
 }
