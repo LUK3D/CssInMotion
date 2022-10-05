@@ -31,7 +31,7 @@ export const Editor = (args:IEditor)=>{
     const [frames, setFrames] = useState([
         0,1,2,3,4,5,6,7,8,9,10
       ])
-      const [trackPosition, setTrackPosition] = useState<Vector2>({x:20, y:0});
+      const [trackPosition, setTrackPosition] = useState<Vector2>({x:0, y:0});
       const [mousePosOnFramesTrack, setMousePosOnFramesTrack] = useState<Vector2>({x:0, y:0});
   
       useEffect(() => {

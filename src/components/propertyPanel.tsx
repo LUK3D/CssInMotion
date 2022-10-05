@@ -15,7 +15,7 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
   const [animatedProps,setAnimatedPros] = useState({});
 
   function animateElement(prop:string, value:string){
-    if(args.selectedLayer?.name || selectedId){
+    if(args.selectedLayer?.name ){
 
       //@ts-ignore
       let data = {...animatedProps};
@@ -25,14 +25,19 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
      
       //@ts-ignore
       el!.style[prop] = value;
-       //@ts-ignore
-       if(!data[args.trackPosition.x]){
+      //@ts-ignore
+      if(!data[args.selectedLayer?.name]){
         //@ts-ignore
-        data[args.trackPosition.x] = {};
+        data[args.selectedLayer?.name] = {};
+      }
+       //@ts-ignore
+       if(!data[args.selectedLayer?.name]?.[args.trackPosition.x]){
+        //@ts-ignore
+        data[args.selectedLayer?.name][args.trackPosition.x] = {};
       }
       //----------------------------------------------------------------
       //@ts-ignore
-      data[args.trackPosition.x][prop] = value;
+      data[args.selectedLayer?.name][args.trackPosition.x][prop] = value;
       setAnimatedPros(data);
       //----------------------------------------------------------------
       
