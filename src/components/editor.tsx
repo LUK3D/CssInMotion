@@ -3,11 +3,12 @@ import React, { SetStateAction, useEffect, useState } from 'react';
 import { CSSInMotionProject, ILayer } from '../interfaces/CSSInMotionProject';
 import { Vector2 } from '../interfaces/timeline';
 import { useAppDispatch } from '../redux/hooks';
-import { addLayer } from '../redux/projectSlice';
+import { addLayer, moveLayerElement } from '../redux/projectSlice';
 import { normaliZe, setScrollY } from '../utils';
 import { Layer } from './layer'
 import { LayerFrames } from './layerFrames'
 import { Rectangle } from './primitives/rectangle';
+import { PropertyPanel } from './propertyPanel';
 
 interface IEditor{
     project: CSSInMotionProject,
@@ -20,10 +21,12 @@ export const Editor = (args:IEditor)=>{
     const dispatcher = useAppDispatch();
 
 
+    const [selectedLayer, setSelectedLayer] = useState<ILayer>();
 
     let baseEl = <div className='w-40 h-40 bg-gray-200'></div>;
 
     const [dragging, setDragging] = useState<boolean>(false);
+    const [layersCount, setlayersCount] = useState<number>(0);
     
     const [frames, setFrames] = useState([
         0,1,2,3,4,5,6,7,8,9,10
@@ -52,9 +55,21 @@ export const Editor = (args:IEditor)=>{
         setTrackPosition({x:x,y:0})
       }
     }
+    
 
+    
     function addSHape(name:string, initialPosition:Vector2 = {x:0,y:0}){
-      dispatcher(addLayer({
+      setlayersCount(layersCount+1);
+
+
+      let paper = document.getElementById('paper');
+      let el = document.createElement('div');
+      el.style.width = '200px';
+      el.style.height = '200px';
+      el.style.background = 'gray';
+      el.id = name+layersCount;
+      paper?.append(el)
+      let layer  = addLayer({
         animated:true,
         attributes:  [
           {
@@ -83,15 +98,22 @@ export const Editor = (args:IEditor)=>{
               name:'Scale'
           },
         ],
-        name:name,
+        name:name+layersCount,
         show_keyframes:true,
         
-      }));
-    
+      });
+      setSelectedLayer(layer.payload);
+      dispatcher(layer);
       
-      }
+    }
+
+   
+
+
+    
 
     return (
+        <>
         <div id='editor' className='h-full  col-span-9 bg-dark-900 flex flex-col'>
           <div className="2dView w-full h-full relative group flex flex-col overflow-hidden">
 
@@ -110,13 +132,13 @@ export const Editor = (args:IEditor)=>{
                   </button>
               </div>
               <div id='canvas' className="col-span-10 canvas h-full relative flex justify-center items-center">
-                  <div className="paper w-[400px] h-[400px] bg-white relative ">
-                      {
+                  <div id='paper' className=" w-[400px] h-[400px] bg-white relative ">
+                      {/* {
                         args.project.layers.map((layer,index)=>{
                             return <div key={layer.name + index} className='w-40 h-40 bg-gray-200 absolute' style={{
                             }}></div>
                         })
-                      }
+                      } */}
                   </div>
               </div>
             </div>
@@ -159,7 +181,7 @@ export const Editor = (args:IEditor)=>{
                 )}>
               {
                      args.project.layers.map((layer,index)=>{
-                        return <Layer  text={layer.name} selector={`${index}`} key={`layer_${index}`} layer={layer}></Layer>
+                        return <Layer onSelectLayer={()=>setSelectedLayer(layer)}  text={layer.name} selector={`${index}`} key={`layer_${index}`} layer={layer}></Layer>
                     })
               }
               </div>
@@ -199,5 +221,8 @@ export const Editor = (args:IEditor)=>{
             </div>
           </div>
       </div>
+      <PropertyPanel  selectedLayer={selectedLayer} trackPosition={trackPosition}></PropertyPanel>
+        
+        </>
     );
 }

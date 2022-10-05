@@ -2,13 +2,16 @@ import { useState } from 'react';
 import { Text, Image, SimpleGrid } from '@mantine/core';
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 
-export const CIMotionDropZone = ()=>{
+export const CIMotionDropZone = (args:{onImage?:Function})=>{
 
     const [files, setFiles] = useState<FileWithPath[]>([]);
 
   const previews = files.map((file, index) => {
     const imageUrl = URL.createObjectURL(file);
-    return (
+
+    
+
+    let res = (
       <img
         key={index}
         src={imageUrl}
@@ -16,6 +19,13 @@ export const CIMotionDropZone = ()=>{
         className="w-full h-[100px] object-cover rounded-md "
       />
     );
+
+    if(args.onImage){
+      args.onImage!(imageUrl);
+    }
+
+    return res;
+    
   });
 
   return (

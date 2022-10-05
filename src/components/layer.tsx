@@ -5,7 +5,8 @@ import { Attribute, ILayer } from '../interfaces/CSSInMotionProject';
 interface Layer{
     text:string,
     selector:string,
-    layer:ILayer
+    layer:ILayer,
+    onSelectLayer:Function
 }
 
 export function Layer(args:Layer) {
@@ -19,7 +20,7 @@ export function Layer(args:Layer) {
 
   return (
     <div className='w-full flex flex-col border-b border-dark-900'>
-      <Button id={'layer_'+args} onClick={() => {setOpened((o) => !o); openFrames();}}  className={` rounded-none flex bg-transparent ${opened?'border-0 border-b border-dark-900 border-t-0 bg-purple-600':''} `}>
+      <Button id={'layer_'+args} onClick={() => {setOpened((o) => !o); openFrames(); args.onSelectLayer(args.layer)}}  className={` rounded-none flex bg-transparent ${opened?'border-0 border-b border-dark-900 border-t-0 bg-purple-600':''} `}>
         <div className='mr-2'>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`transition transform  ${opened?'rotate-90':''} w-4 h-4`}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />

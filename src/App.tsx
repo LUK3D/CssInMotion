@@ -27,7 +27,7 @@ function App() {7
     <div className="App w-screen h-screen bg-dark-600 grid grid-cols-12 overflow-y-hidden">
       <Welcome></Welcome>
       <Editor project={project} ></Editor>
-      <PropertyPanel></PropertyPanel>
+      
     </div>
   )
 }

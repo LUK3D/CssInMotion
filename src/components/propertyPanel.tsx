@@ -1,8 +1,38 @@
 import { Checkbox, ColorInput, NumberInput, SegmentedControl, Slider, TextInput, Tooltip } from "@mantine/core";
+import { useEffect } from "react";
+import { ILayer } from "../interfaces/CSSInMotionProject";
+import { Vector2 } from "../interfaces/timeline";
+import { useAppDispatch } from "../redux/hooks";
+import { moveLayerElement } from "../redux/projectSlice";
 import { CIMotionDropZone } from "./dropZone";
 import { Poperty } from "./Property";
 
-export const PropertyPanel = ()=>{
+export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2})=>{
+  const dispatcher = useAppDispatch();
+  var selectedId = '';
+  let el: HTMLElement | null
+
+  function animateElement(prop:string, value:string){
+
+   
+
+
+    if(args.selectedLayer?.name || selectedId){
+    
+
+      el = document.getElementById(args.selectedLayer!.name??selectedId);
+      el!.style.position = 'absolute';
+     
+    //@ts-ignore
+      el!.style[prop] = value;
+    }
+    
+  }
+
+ 
+  
+
+  
     return(
         <div className='h-full  overflow-y-auto col-span-3 border-l border-dark-900 flex flex-col'>
               <div className="header p-2 border-b border-dark-900">
@@ -17,8 +47,12 @@ export const PropertyPanel = ()=>{
                           <p>Position</p>
                         </div>
                         <div className='w-4/5 flex'>
-                          <NumberInput icon={'X'}className='mx-2'/>
-                          <NumberInput icon={'Y'}className='mx-2'/>
+                          <NumberInput onChange={(val)=>{
+                            animateElement('left', `${val}px`)
+                          }}  icon={'X'}className='mx-2'/>
+                          <NumberInput onChange={(val)=>{
+                            animateElement('top', `${val}px`)
+                          }}  icon={'Y'}className='mx-2'/>
                         </div>
                       </div>
                       <div className='flex items-center justify-between mb-3'>
@@ -26,8 +60,18 @@ export const PropertyPanel = ()=>{
                           <p>Scale</p>
                         </div>
                         <div className='w-4/5 flex'>
-                          <NumberInput icon={'W'}className='mx-2'/>
-                          <NumberInput icon={'H'}className='mx-2'/>
+                          <NumberInput 
+                          onChange={(val)=>{
+                            animateElement('width', `${val}px`)
+                          }}
+                          
+                          icon={'W'}className='mx-2'/>
+                          <NumberInput 
+                          onChange={(val)=>{
+                            animateElement('height', `${val}px`)
+                          }}
+
+                          icon={'H'}className='mx-2'/>
                         </div>
                       </div>
                       <div className='flex items-center justify-between mb-3'>
@@ -35,7 +79,11 @@ export const PropertyPanel = ()=>{
                           <p>Rotation</p>
                         </div>
                         <div className='w-4/5 flex'>
-                          <NumberInput icon={'º'} className='mx-2'/>
+                          <NumberInput
+                          onChange={(val)=>{
+                            animateElement('rotate', `${val}deg`)
+                          }}
+                          icon={'º'} className='mx-2'/>
                         </div>
                       </div>
                     </div>
@@ -49,7 +97,21 @@ export const PropertyPanel = ()=>{
                           <p>Opacity</p>
                         </div>
                         <div className='w-4/5 '>
-                        <Slider/>
+                        <Slider 
+                      
+                        />
+                        </div>
+                      </div>
+                      <div className='flex items-center justify-between mb-3'>
+                        <div className='w-2/6 flex items-center'>
+                          <p>Z-Index</p>
+                        </div>
+                        <div className='w-4/5 '>
+                        <NumberInput 
+                       onChange={(val)=>{
+                        animateElement('z-index', `${val}`)
+                      }}
+                        />
                         </div>
                       </div>
                       
@@ -65,7 +127,12 @@ export const PropertyPanel = ()=>{
                           <p>Color</p>
                         </div>
                         <div className='w-4/5 '>
-                        <ColorInput format="rgb"  swatches={['#25262b', '#868e96', '#fa5252', '#e64980', '#be4bdb', '#7950f2', '#4c6ef5', '#228be6', '#15aabf', '#12b886', '#40c057', '#82c91e', '#fab005', '#fd7e14']} />
+                        <ColorInput 
+                           onChange={(val)=>{
+                            animateElement('background-color', `${val}`)
+                          }}
+                        
+                        format="rgb"  swatches={['#25262b', '#868e96', '#fa5252', '#e64980', '#be4bdb', '#7950f2', '#4c6ef5', '#228be6', '#15aabf', '#12b886', '#40c057', '#82c91e', '#fab005', '#fd7e14']} />
                         </div>
                       </div>
                       <div className='flex items-center justify-between mb-3'>
@@ -73,7 +140,10 @@ export const PropertyPanel = ()=>{
                           <p>Image</p>
                         </div>
                         <div className='w-4/5 '>
-                          <CIMotionDropZone></CIMotionDropZone>
+                          <CIMotionDropZone onImage={(img:string)=>{
+                            console.log(img);
+                            animateElement('background-image', `url("${img}")`);
+                          }}></CIMotionDropZone>
                         </div>
                       </div>
                       <div className='flex items-center justify-between mb-3'>
@@ -81,7 +151,11 @@ export const PropertyPanel = ()=>{
                          
                         </div>
                         <div className='w-4/5 '>
-                        <Checkbox  label='Repeate' />
+                        <Checkbox  label='Repeate'
+                          onChange={(event)=>{
+                            animateElement('background-repeat', `${event.currentTarget.checked?'repeat':'no-repeat'}`);
+                          }}
+                        />
                         </div>
                       </div>
                       <div className='flex items-center justify-between mb-3'>
@@ -92,6 +166,9 @@ export const PropertyPanel = ()=>{
                         </div>
                         <div className='w-4/5 '>
                           <TextInput
+                            onChange={(val)=>{
+                              animateElement('background-position', `${val.target.value}`);
+                            }}
                           />
                         </div>
                       </div>
@@ -103,6 +180,9 @@ export const PropertyPanel = ()=>{
                         </div>
                         <div className='w-4/5 '>
                           <TextInput
+                            onChange={(val)=>{
+                              animateElement('background-size', `${val.target.value}`);
+                            }}
                           />
                         </div>
                       </div>
@@ -135,7 +215,22 @@ export const PropertyPanel = ()=>{
                                   <div className='w-7 h-0.5 bg-gray-400'></div>
                                 </div>, value: 'solid' },
                               ]}
+                              onChange={(val)=>{
+                                animateElement('border-style', `${val}`);
+                              }}
                             />
+                        </div>
+                      </div>
+                      <div className='flex items-center justify-between mb-3'>
+                        <div className='w-2/6 flex items-center'>
+                          <p>Width</p>
+                        </div>
+                        <div className='w-4/5 '>
+                          <NumberInput
+                            onChange={(val)=>{
+                              animateElement('border-width', `${val}px`);
+                            }}
+                          />
                         </div>
                       </div>
                       <div className='flex items-center justify-between mb-3'>
@@ -143,18 +238,28 @@ export const PropertyPanel = ()=>{
                           <p>Color</p>
                         </div>
                         <div className='w-4/5 '>
-                        <ColorInput format="rgb"  swatches={['#25262b', '#868e96', '#fa5252', '#e64980', '#be4bdb', '#7950f2', '#4c6ef5', '#228be6', '#15aabf', '#12b886', '#40c057', '#82c91e', '#fab005', '#fd7e14']} />
+                        <ColorInput 
+                        onChange={(val)=>{
+                          animateElement('border-color', `${val}`);
+                        }}
+                        
+                        format="rgb"  swatches={['#25262b', '#868e96', '#fa5252', '#e64980', '#be4bdb', '#7950f2', '#4c6ef5', '#228be6', '#15aabf', '#12b886', '#40c057', '#82c91e', '#fab005', '#fd7e14']} />
                         </div>
                       </div>
-
                       <div className='flex items-center justify-between mb-3'>
                         <div className='w-2/6 flex items-center'>
                           <p>Radius</p>
                         </div>
                         <div className='w-4/5 '>
-                        <Slider/>
+                        <NumberInput 
+                          onChange={(val)=>{
+                            animateElement('border-radius', `${val}px`);
+                          }}
+                         />
                         </div>
                       </div>
+
+                      
                     </div>
                   }
                   ></Poperty>
