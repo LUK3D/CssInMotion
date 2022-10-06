@@ -34,6 +34,9 @@ export const Editor = (args:IEditor)=>{
 
       const [trackPosition, setTrackPosition] = useState<Vector2>({x:0, y:0});
       const [mousePosOnFramesTrack, setMousePosOnFramesTrack] = useState<Vector2>({x:0, y:0});
+
+      const [isPlaying,setIsPlaying] = useState<boolean>(false);
+      
   
       useEffect(() => {
         let zommEl = createPanZoom(document.getElementById('canvas')!);
@@ -158,6 +161,16 @@ export const Editor = (args:IEditor)=>{
     }
 
     function play() {
+      setIsPlaying(!isPlaying);
+
+      let previewContainer = document.getElementById('animation_preview');
+
+      if(isPlaying){
+        if(previewContainer){
+          previewContainer.remove();
+          return;
+        }
+      }
       let template = `
       @keyframes ${args.project.animation}_LAYER {
         ###
@@ -208,7 +221,7 @@ export const Editor = (args:IEditor)=>{
 
       });
       
-      let previewContainer = document.getElementById('animation_preview');
+     
       
       if(!previewContainer){
         previewContainer = document.createElement('div');
@@ -269,7 +282,12 @@ export const Editor = (args:IEditor)=>{
                       </svg>
                   </button>
                   <button onClick={()=>play()} className='mx-3'>
-                    <svg className='w-5 h-5 transform transition hover:scale-125' viewBox="0 0 10.85791 11.87915" version="1.1"  xmlns="http://www.w3.org/2000/svg">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={`w-6 h-6 scale-150 transform transition hover:scale-165 ${isPlaying?'block':'hidden'}`}>
+                      <path fillRule="evenodd" d="M4.5 7.5a3 3 0 013-3h9a3 3 0 013 3v9a3 3 0 01-3 3h-9a3 3 0 01-3-3v-9z" clipRule="evenodd" />
+                    </svg>
+
+                    <svg className={`w-6 h-6 transform transition hover:scale-125 ${(!isPlaying)?'block':'hidden'}`} viewBox="0 0 10.85791 11.87915" version="1.1"  xmlns="http://www.w3.org/2000/svg">
                       <path d="M2.80493 0.249023C1.55493 -0.464111 0 0.438965 0 1.87891L0 10.001C0 11.4409 1.55493 12.344 2.80493 11.6289L9.91309 7.56787C11.1731 6.8479 11.1731 5.03198 9.91309 4.31201L2.80493 0.25L2.80493 0.249023Z" id="Forma" fill="current" fillRule="evenodd" stroke="none" />
                     </svg>
                   </button>
