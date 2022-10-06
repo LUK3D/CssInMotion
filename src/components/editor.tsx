@@ -1,6 +1,6 @@
 import createPanZoom from 'panzoom';
 import React, { SetStateAction, useEffect, useState } from 'react';
-import { CSSInMotionProject, ILayer, Keyframe } from '../interfaces/CSSInMotionProject';
+import { Attribute, CSSInMotionProject, ILayer, Keyframe } from '../interfaces/CSSInMotionProject';
 import { Vector2 } from '../interfaces/timeline';
 import { useAppDispatch } from '../redux/hooks';
 import { addLayer, moveLayerElement } from '../redux/projectSlice';
@@ -113,7 +113,7 @@ export const Editor = (args:IEditor)=>{
         name: _args.prop
       };
       
-      if( attributes.length<=0){
+      if( attributes.length==0){
         attributes.push(keyframe);
         console.log("1",attributes.length);
       }else{
@@ -134,16 +134,22 @@ export const Editor = (args:IEditor)=>{
           x.name = x.name;
           return x;
         });
-        console.log("2",attributes);
 
         
       }
+      
+      //This block just keeps the attribute on the same position after applying all keyframs
+      let final_attributes:Array<Attribute> = [];
+      if(selectedLayer!.attributes.filter(x=>x.name == _args.prop).length>0){
+         final_attributes = selectedLayer!.attributes.map(x=>x.name!=_args.prop?x:attributes[0]);
+      }else{
+        final_attributes = [...selectedLayer!.attributes,attributes[0]];
+      }
 
-      let newLayer:ILayer = {animated:true,attributes:[...selectedLayer!.attributes.filter(x=>x.name!=_args.prop),...attributes],name:selectedLayer!.name,show_keyframes:true};
-        
+
+      let newLayer:ILayer = {animated:true,attributes:final_attributes,name:selectedLayer!.name,show_keyframes:true};
       let data:Array<ILayer> = [...layers, newLayer];
       setSelectedLayer(newLayer);
-      
       args.setProject({...args.project, layers:data});
 
     }
