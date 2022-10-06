@@ -95,6 +95,8 @@ export const Editor = (args:IEditor)=>{
     }
 
     function addKey(_args:{prop:string, val:string}){
+
+      
       let layers = args.project.layers.filter(x=>x.name!= selectedLayer?.name);
       let attributes = selectedLayer!.attributes.filter(x=>x.name == _args.prop);
       let keyframe = {
@@ -106,6 +108,14 @@ export const Editor = (args:IEditor)=>{
         ],
         name: _args.prop
       };
+      
+      if(_args.val == '###'){
+       var el = document.getElementById(selectedLayer!.name);
+        if(el){
+          //@ts-ignore
+          _args.val = (el.style[_args.prop] == '')?'0':el.style[_args.prop];
+        }
+      }
       
       if( attributes.length==0){
         attributes.push(keyframe);
@@ -286,7 +296,9 @@ export const Editor = (args:IEditor)=>{
                 )}>
               {
                      args.project.layers.map((layer,index)=>{
-                        return <Layer onSelectLayer={()=>setSelectedLayer(layer)}  text={layer.name} selector={`${index}`} key={`layer_${index}`} layer={layer}></Layer>
+                        return <Layer onAddKeyframe={(prop:string)=>{
+                          addKey({prop:prop,val:'###'});
+                        }} onSelectLayer={()=>setSelectedLayer(layer)}  text={layer.name} selector={`${index}`} key={`layer_${index}`} layer={layer}></Layer>
                     })
               }
               </div>

@@ -6,7 +6,8 @@ interface Layer{
     text:string,
     selector:string,
     layer:ILayer,
-    onSelectLayer:Function
+    onSelectLayer:Function,
+    onAddKeyframe:Function
 }
 
 export function Layer(args:Layer) {
@@ -33,7 +34,7 @@ export function Layer(args:Layer) {
         args.layer.attributes.map((attribute, index)=>{
           return  <div key={'layer_'+attribute.name+index} className='flex items-center justify-between py-2 border-b border-dark-800 pr-5 pl-10  '>
           <div className='flex items-center'>
-              <div className='w-2.5 h-2.5 bg-gray-500 hover:bg-orange-500 mr-3 transform rotate-45 rounded-sm cursor-pointer' title='Add keyframe'></div>  <p>{attribute.name}</p>
+              <div onClick={()=>args.onAddKeyframe(attribute.name)} className='w-2.5 h-2.5 bg-gray-500 hover:bg-orange-500 mr-3 transform rotate-45 rounded-sm cursor-pointer' title='Add keyframe'></div>  <p>{attribute.name}</p>
           </div>
           <div title='toggel animation' className='cursor-pointer'>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
