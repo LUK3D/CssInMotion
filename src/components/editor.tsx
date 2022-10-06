@@ -1,13 +1,12 @@
+import { Drawer, MantineTheme } from '@mantine/core';
+import { Prism } from '@mantine/prism';
 import createPanZoom from 'panzoom';
 import React, { SetStateAction, useEffect, useState } from 'react';
 import { Attribute, CSSInMotionProject, ILayer, Keyframe } from '../interfaces/CSSInMotionProject';
 import { Vector2 } from '../interfaces/timeline';
-import { useAppDispatch } from '../redux/hooks';
-import { addLayer, moveLayerElement, project } from '../redux/projectSlice';
 import { normaliZe, setScrollY } from '../utils';
 import { Layer } from './layer'
 import { LayerFrames } from './layerFrames'
-import { Rectangle } from './primitives/rectangle';
 import { PropertyPanel } from './propertyPanel';
 
 interface IEditor{
@@ -24,6 +23,8 @@ export const Editor = (args:IEditor)=>{
       return layer;
     }
 
+    const [opened, setOpened] = useState(false);
+
     const [selectedLayer, setSelectedLayer] = useState<ILayer>();
     let baseEl = <div className='w-40 h-40 bg-gray-200'></div>;
     const [dragging, setDragging] = useState<boolean>(false);
@@ -36,6 +37,8 @@ export const Editor = (args:IEditor)=>{
       const [mousePosOnFramesTrack, setMousePosOnFramesTrack] = useState<Vector2>({x:0, y:0});
 
       const [isPlaying,setIsPlaying] = useState<boolean>(false);
+
+      const [exportedCode, setExportedCode] = useState<string>('');
       
   
       useEffect(() => {
@@ -170,7 +173,7 @@ export const Editor = (args:IEditor)=>{
 
     function previewCurrentPos() {
       generate();
-      let pos = ((parseInt(normaliZe(trackPosition.x,0,10).split(':')[0])*0.22)) + 's';
+      let pos = ((parseFloat(normaliZe(trackPosition.x,0,10).split(':')[0])*0.22)) + 's';
         args.project.layers.forEach((el,index)=>{
           document.getElementById(el.name)!.style.animationPlayState = 'running';
           document.getElementById(el.name)!.style.animationDelay = '-'+pos;
@@ -212,7 +215,7 @@ export const Editor = (args:IEditor)=>{
         layer.attributes.forEach((attr,i)=>{
           let _frame = [];
           attr.keyframes.forEach((frame,e)=>{
-            let pos = (parseInt(normaliZe(frame.position.x,0,10).split(':')[0])*10) + '%';
+            let pos = (parseFloat(normaliZe(frame.position.x,0,10).split(':')[0])*10) + '%';
             //@ts-ignore
             if(!positions[pos]){
               //@ts-ignore
@@ -249,6 +252,8 @@ export const Editor = (args:IEditor)=>{
       
       if(previewContainer){
         previewContainer.innerHTML = ` <style> ${animations.join('\n')} </style>`
+
+        setExportedCode(animations.join('\n'));
       }
     }
 
@@ -259,6 +264,8 @@ export const Editor = (args:IEditor)=>{
 
     return (
         <>
+
+      
         <div id='editor' className='h-full  col-span-9 bg-dark-900 flex flex-col'>
           <div className="2dView w-full h-full relative group flex flex-col overflow-hidden">
 
@@ -376,6 +383,27 @@ export const Editor = (args:IEditor)=>{
           </div>
       </div>
       <PropertyPanel addKey={addKey}  selectedLayer={selectedLayer} trackPosition={trackPosition}></PropertyPanel>
+
+      <Drawer
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Css Animation"
+        padding="xl"
+        size="xl"
+      >
+        {
+        
+            <div className='flex flex-col h-[80vh] overflow-y-auto'>
+              <Prism  withLineNumbers scrollAreaComponent="div" language="css">{exportedCode}</Prism>
+            </div>
+        }
+      </Drawer>
+
+        <button className=' bg-purple-500 px-2 py-1 rounded-md shadow-2xl flex flex-col fixed z-50 top-5 right-2/7' onClick={() => setOpened(true)}>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
+          </svg>
+        </button>
         
         </>
     );

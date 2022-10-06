@@ -19,7 +19,7 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
     document.getElementById('animation_preview')?.remove();
 
     if(args.selectedLayer?.name ){
-      let posX = (parseInt(normaliZe(args.trackPosition.x,0,10).split(':')[0])*10) + '%';
+      let posX = (parseFloat(normaliZe(args.trackPosition.x,0,10).split(':')[0])*10) + '%';
 
       //@ts-ignore
       let data = {...animatedProps};
