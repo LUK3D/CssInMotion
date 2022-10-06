@@ -8,6 +8,7 @@ interface Layer{
   selector:string,
   layer_name:string,
   currentMousePositiononTrack:Vector2,
+  setTrackPosition:Function,
   attributes:Array<Attribute>,
   project: CSSInMotionProject,
   setProject:Function,
@@ -50,7 +51,9 @@ export function LayerFrames(args:Layer) {
         args.attributes.map((attribute,index)=>{
           return <div key={attribute.name+index} className='flex items-center justify-between py-5 border-b border-dark-800 pr-5 pl-10  relative'>
           {attribute.keyframes.map((keyframe)=>{
-           return <Keyframe onUpdatePosition={(oldPosition:Vector2,newPosition:Vector2)=>updateFramePosition(oldPosition,newPosition, attribute.name)}  key={'position_key_'+keyframe.position.x} initialPosition={keyframe.position}  currentMousePositionOnTrack={args.currentMousePositiononTrack}></Keyframe>
+           return <Keyframe onClick={(pos:Vector2)=>{
+            args.setTrackPosition(pos);
+           }} onUpdatePosition={(oldPosition:Vector2,newPosition:Vector2)=>updateFramePosition(oldPosition,newPosition, attribute.name)}  key={'position_key_'+keyframe.position.x} initialPosition={keyframe.position}  currentMousePositionOnTrack={args.currentMousePositiononTrack}></Keyframe>
           })}
       </div>
         })

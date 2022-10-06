@@ -3,9 +3,11 @@ import { CSSInMotionProject } from "../interfaces/CSSInMotionProject";
 import { Vector2 } from "../interfaces/timeline";
 
 interface IKeyframe {
-    currentMousePositionOnTrack: Vector2
-    initialPosition?: Vector2
-    onUpdatePosition:Function
+    currentMousePositionOnTrack: Vector2,
+    initialPosition?: Vector2,
+    onUpdatePosition:Function,
+    onClick:Function
+
 }
 
 export const Keyframe = (args: IKeyframe) => {
@@ -58,6 +60,7 @@ export const Keyframe = (args: IKeyframe) => {
             onMouseUp={() => { 
                 setDragging(false); 
             }} 
+            onClick={()=>args.onClick(position)}
             className='flex items-center py-2 absolute cursor-pointer active:cursor-pointer transition transform hover:scale-125' 
             style={{
                 left: position.x

@@ -366,7 +366,9 @@ export const Editor = (args:IEditor)=>{
                 )}>
               {
                 args.project.layers.map((layer, index)=>{
-                        return <LayerFrames project={args.project} setProject={args.setProject} layer_name={layer.name}  currentMousePositiononTrack={mousePosOnFramesTrack} selector={index.toString()} key={'key_' + index} attributes={layer.attributes}></LayerFrames>
+                        return <LayerFrames setTrackPosition={(pos:Vector2)=>{
+                          setTrackPosition(pos);
+                        }} project={args.project} setProject={args.setProject} layer_name={layer.name}  currentMousePositiononTrack={mousePosOnFramesTrack} selector={index.toString()} key={'key_' + index} attributes={layer.attributes}></LayerFrames>
                 })
               }
               </div>
