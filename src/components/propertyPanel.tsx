@@ -16,6 +16,8 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
   const [animatedProps,setAnimatedPros] = useState({});
 
   function animateElement(prop:string, value:string){
+    document.getElementById('animation_preview')?.remove();
+
     if(args.selectedLayer?.name ){
       let posX = (parseInt(normaliZe(args.trackPosition.x,0,10).split(':')[0])*10) + '%';
 
@@ -78,7 +80,7 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
                       </div>
                       <div className='flex items-center justify-between mb-3'>
                         <div className='w-2/6 flex items-center'>
-                          <p>Scale</p>
+                          <p>Dimentions</p>
                         </div>
                         <div className='w-4/5 flex'>
                           <NumberInput 
@@ -93,6 +95,21 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
                           }}
 
                           icon={'H'}className='mx-2'/>
+                        </div>
+                      </div>
+                      
+                      <div className='flex items-center justify-between mb-3'>
+                        <div className='w-2/6 flex items-center'>
+                          <p>Scale</p>
+                        </div>
+                        <div className='w-4/5 flex'>
+                          <NumberInput
+                          min={0.0}
+                          max={1000}
+                          onChange={(val)=>{
+                            animateElement('scale', `${(val??1)*0.010}`)
+                          }}
+                           className='mx-2'/>
                         </div>
                       </div>
                       <div className='flex items-center justify-between mb-3'>
