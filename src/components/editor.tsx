@@ -79,29 +79,18 @@ export const Editor = (args:IEditor)=>{
         attributes:  [
           {
               keyframes:[
-                {
-                    position:{x:40,y:0},
-                    value:'rgb(0,0,0)'
-                },
-                {
-                    position:{x:0,y:0},
-                    value:'rgb(0,0,0)'
-                },
-                {
-                    position:{x:150,y:150},
-                    value:'rgb(0,0,0)'
-                },
+               
+               
               ],
-              name:'Position'
+              name:'left'
           },
           {
-              keyframes:[],
-              name:'Rotation'
-          },
-          {
-              keyframes:[],
-              name:'Scale'
-          },
+              keyframes:[
+               
+               
+              ],
+              name:'top'
+          }
         ],
         name:name+layersCount,
         show_keyframes:true,
@@ -113,7 +102,7 @@ export const Editor = (args:IEditor)=>{
 
     function addKey(_args:{prop:string, val:string}){
       let layers = args.project.layers.filter(x=>x.name!= selectedLayer?.name);
-      let prop = selectedLayer!.attributes.filter(x=>x.name == _args.prop);
+      let attributes = selectedLayer!.attributes.filter(x=>x.name == _args.prop);
       let keyframe = {
         keyframes:[
           {
@@ -124,23 +113,36 @@ export const Editor = (args:IEditor)=>{
         name: _args.prop
       };
       
-      if(prop.length<=0){
-        prop.push(keyframe);
-        console.log('RESTARTING');
+      if( attributes.length<=0){
+        attributes.push(keyframe);
+        console.log("1",attributes.length);
       }else{
 
-        prop.map(x=>{
-          x.keyframes.push({
-            position:trackPosition,
-            value:_args.val
-          });
-          x.name = _args.prop;
+        attributes.map(x=>{
+          let previous_keyframes = x.keyframes.filter(k=>k.position == trackPosition);
+          if(previous_keyframes.length>0){
+            previous_keyframes.map(pk=>pk.value = _args.val);
+          }else{
+            previous_keyframes.push(
+              {
+                position:trackPosition,
+                value:_args.val
+              }
+            )
+          }
+          x.keyframes = [...x.keyframes.filter(k=>k.position != trackPosition),...previous_keyframes];
+          x.name = x.name;
           return x;
         });
+        console.log("2",attributes);
+
         
       }
+
+      let newLayer:ILayer = {animated:true,attributes:[...selectedLayer!.attributes.filter(x=>x.name!=_args.prop),...attributes],name:selectedLayer!.name,show_keyframes:true};
         
-      let data:Array<ILayer> = [...layers, {animated:true,attributes:prop,name:selectedLayer!.name,show_keyframes:true}];
+      let data:Array<ILayer> = [...layers, newLayer];
+      setSelectedLayer(newLayer);
       
       args.setProject({...args.project, layers:data});
 
