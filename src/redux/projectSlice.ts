@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CSSInMotionProject, ILayer } from "../interfaces/CSSInMotionProject";
+import { CSSInMotionProject, ILayer, Keyframe } from "../interfaces/CSSInMotionProject";
 import { Vector2 } from "../interfaces/timeline";
 import { RootState } from "./store";
 
@@ -12,7 +12,10 @@ let initialState:CSSInMotionProject = {
     ]
   };
 
-
+interface iaddKeyframe{
+  key:Keyframe,
+  layer:ILayer
+}
 export const projectSlice = createSlice(
     {
         name:"project",
@@ -21,6 +24,11 @@ export const projectSlice = createSlice(
             addLayer:(state, action:PayloadAction<ILayer>)=>{
                 return {...state, layers:[...state.layers,action.payload]}
             },
+            // addKeyframe:(state,  action:PayloadAction<iaddKeyframe>)=>{
+            //   let layers = state.layers.filter((_layer)=>_layer.name != action.payload.layer.name);
+
+            //   return {...state, layers:[...layers,action.payload]}
+            // },
             moveLayerElement:(state, action:PayloadAction<{keyframe_position:Vector2,layer_name:string, position:Vector2}>)=>{
                 let layer = state.layers.find(x=>x.name == (action.payload.layer_name));
                 if(!layer){

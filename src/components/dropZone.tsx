@@ -9,22 +9,24 @@ export const CIMotionDropZone = (args:{onImage?:Function})=>{
   const previews = files.map((file, index) => {
     const imageUrl = URL.createObjectURL(file);
 
-    
+    //  if(args.onImage){
+    //     args.onImage!(imageUrl);
+    //     console.log('Appliying background...');
+    //   }
 
-    let res = (
+    return (
       <img
         key={index}
         src={imageUrl}
-        onLoad={()=>URL.revokeObjectURL(imageUrl)}
+        onLoad={()=>{
+          URL.revokeObjectURL(imageUrl);
+          console.log('apply')
+        }}
         className="w-full h-[100px] object-cover rounded-md "
       />
     );
 
-    if(args.onImage){
-      args.onImage!(imageUrl);
-    }
 
-    return res;
     
   });
 

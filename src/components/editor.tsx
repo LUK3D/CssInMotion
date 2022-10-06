@@ -1,6 +1,6 @@
 import createPanZoom from 'panzoom';
 import React, { SetStateAction, useEffect, useState } from 'react';
-import { CSSInMotionProject, ILayer } from '../interfaces/CSSInMotionProject';
+import { CSSInMotionProject, ILayer, Keyframe } from '../interfaces/CSSInMotionProject';
 import { Vector2 } from '../interfaces/timeline';
 import { useAppDispatch } from '../redux/hooks';
 import { addLayer, moveLayerElement } from '../redux/projectSlice';
@@ -12,11 +12,18 @@ import { PropertyPanel } from './propertyPanel';
 
 interface IEditor{
     project: CSSInMotionProject,
+    setProject:Function,
 }
 
 
 
 export const Editor = (args:IEditor)=>{
+
+  function addLayer( layer:ILayer){
+    args.setProject({...args.project, layers:[...args.project.layers,layer]});
+    return layer;
+  }
+
 
     const dispatcher = useAppDispatch();
 
@@ -47,20 +54,18 @@ export const Editor = (args:IEditor)=>{
               setTrackPosition({x:x,y:0})
             }
         }
-      // trackPosition.x = x;
     }
+
     function moveTrackXByClick(x:number){
       let max = document.getElementById('animation_layers')?.clientWidth??0;
       if(x>=0 && x<=max){
         setTrackPosition({x:x,y:0})
       }
     }
-    
 
     
     function addSHape(name:string, initialPosition:Vector2 = {x:0,y:0}){
       setlayersCount(layersCount+1);
-
 
       let paper = document.getElementById('paper');
       let el = document.createElement('div');
@@ -102,9 +107,43 @@ export const Editor = (args:IEditor)=>{
         show_keyframes:true,
         
       });
-      setSelectedLayer(layer.payload);
-      dispatcher(layer);
+      setSelectedLayer(layer);
       
+    }
+
+    function addKey(_args:{prop:string, val:string}){
+      let layers = args.project.layers.filter(x=>x.name!= selectedLayer?.name);
+      let prop = selectedLayer!.attributes.filter(x=>x.name == _args.prop);
+      let keyframe = {
+        keyframes:[
+          {
+            position:trackPosition,
+            value:_args.val
+          }
+        ],
+        name: _args.prop
+      };
+      
+      if(prop.length<=0){
+        prop.push(keyframe);
+        console.log('RESTARTING');
+      }else{
+
+        prop.map(x=>{
+          x.keyframes.push({
+            position:trackPosition,
+            value:_args.val
+          });
+          x.name = _args.prop;
+          return x;
+        });
+        
+      }
+        
+      let data:Array<ILayer> = [...layers, {animated:true,attributes:prop,name:selectedLayer!.name,show_keyframes:true}];
+      
+      args.setProject({...args.project, layers:data});
+
     }
 
    
@@ -221,7 +260,7 @@ export const Editor = (args:IEditor)=>{
             </div>
           </div>
       </div>
-      <PropertyPanel  selectedLayer={selectedLayer} trackPosition={trackPosition}></PropertyPanel>
+      <PropertyPanel addKey={addKey}  selectedLayer={selectedLayer} trackPosition={trackPosition}></PropertyPanel>
         
         </>
     );

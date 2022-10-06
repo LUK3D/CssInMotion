@@ -8,7 +8,7 @@ import { normaliZe } from "../utils";
 import { CIMotionDropZone } from "./dropZone";
 import { Poperty } from "./Property";
 
-export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2})=>{
+export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2, addKey:Function})=>{
   const dispatcher = useAppDispatch();
   var selectedId = '';
   let el: HTMLElement | null
@@ -42,7 +42,9 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
       data[args.selectedLayer?.name][posX][prop] = value;
       setAnimatedPros(data);
       //----------------------------------------------------------------
-      
+      if(args.addKey){
+        args.addKey({prop:prop, val:value});
+      }
       console.log(animatedProps);
     }
     
@@ -160,7 +162,6 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
                         </div>
                         <div className='w-4/5 '>
                           <CIMotionDropZone onImage={(img:string)=>{
-                            console.log(img);
                             animateElement('background-image', `url("${img}")`);
                           }}></CIMotionDropZone>
                         </div>
