@@ -170,7 +170,7 @@ export const Editor = (args:IEditor)=>{
 
     function previewCurrentPos() {
       generate();
-      let pos = ((parseInt(normaliZe(trackPosition.x,0,10).split(':')[0])*0.1)) + 's';
+      let pos = ((parseInt(normaliZe(trackPosition.x,0,10).split(':')[0])*0.22)) + 's';
         args.project.layers.forEach((el,index)=>{
           document.getElementById(el.name)!.style.animationPlayState = 'running';
           document.getElementById(el.name)!.style.animationDelay = '-'+pos;
