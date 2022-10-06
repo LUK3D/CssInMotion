@@ -3,7 +3,7 @@ import React, { SetStateAction, useEffect, useState } from 'react';
 import { Attribute, CSSInMotionProject, ILayer, Keyframe } from '../interfaces/CSSInMotionProject';
 import { Vector2 } from '../interfaces/timeline';
 import { useAppDispatch } from '../redux/hooks';
-import { addLayer, moveLayerElement } from '../redux/projectSlice';
+import { addLayer, moveLayerElement, project } from '../redux/projectSlice';
 import { normaliZe, setScrollY } from '../utils';
 import { Layer } from './layer'
 import { LayerFrames } from './layerFrames'
@@ -331,7 +331,7 @@ export const Editor = (args:IEditor)=>{
                 )}>
               {
                 args.project.layers.map((layer, index)=>{
-                        return <LayerFrames  currentMousePositiononTrack={mousePosOnFramesTrack} selector={index.toString()} key={'key_' + index} attributes={layer.attributes}></LayerFrames>
+                        return <LayerFrames project={args.project} setProject={args.setProject} layer_name={layer.name}  currentMousePositiononTrack={mousePosOnFramesTrack} selector={index.toString()} key={'key_' + index} attributes={layer.attributes}></LayerFrames>
                 })
               }
               </div>

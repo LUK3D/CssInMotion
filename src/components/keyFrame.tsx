@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
+import { CSSInMotionProject } from "../interfaces/CSSInMotionProject";
 import { Vector2 } from "../interfaces/timeline";
 
 interface IKeyframe {
     currentMousePositionOnTrack: Vector2
     initialPosition?: Vector2
+    onUpdatePosition:Function
 }
 
 export const Keyframe = (args: IKeyframe) => {
 
+    const [oldPosition, setOldPosition] = useState<Vector2>({ x: 0, y: 0 });
     const [position, setPosition] = useState<Vector2>({ x: 0, y: 0 });
     const [dragging, setDragging] = useState<boolean>(false);
 
@@ -18,10 +21,14 @@ export const Keyframe = (args: IKeyframe) => {
         }
     }
 
+  
+    
+
     useEffect(() => {
         //📝 Defining initial position for the keyframe
         if (args.initialPosition) {
             setPosition(args.initialPosition);
+            setOldPosition(position);
         }
     }, [])
 
@@ -33,13 +40,19 @@ export const Keyframe = (args: IKeyframe) => {
                 var img = document.createElement("img");
                 img.style.display = 'none';
                 e.dataTransfer.setDragImage(img, 0, 0);
+                setOldPosition(position);
             }}
 
             onDrag={(e) => {
                 dragKeyFrame(e.clientX - e.currentTarget.clientLeft);
             }} 
+
+            onDragEnd={()=>{
+                args.onUpdatePosition(oldPosition, position);
+            }}
             
             onMouseDown={() => { 
+                setOldPosition(position);
                 setDragging(true);
             }} 
             onMouseUp={() => { 
