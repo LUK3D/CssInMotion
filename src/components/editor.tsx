@@ -19,25 +19,19 @@ interface IEditor{
 
 export const Editor = (args:IEditor)=>{
 
-  function addLayer( layer:ILayer){
-    args.setProject({...args.project, layers:[...args.project.layers,layer]});
-    return layer;
-  }
-
-
-    const dispatcher = useAppDispatch();
-
+    function addLayer( layer:ILayer){
+      args.setProject({...args.project, layers:[...args.project.layers,layer]});
+      return layer;
+    }
 
     const [selectedLayer, setSelectedLayer] = useState<ILayer>();
-
     let baseEl = <div className='w-40 h-40 bg-gray-200'></div>;
-
     const [dragging, setDragging] = useState<boolean>(false);
     const [layersCount, setlayersCount] = useState<number>(0);
-    
     const [frames, setFrames] = useState([
         0,1,2,3,4,5,6,7,8,9,10
-      ])
+      ]);
+
       const [trackPosition, setTrackPosition] = useState<Vector2>({x:0, y:0});
       const [mousePosOnFramesTrack, setMousePosOnFramesTrack] = useState<Vector2>({x:0, y:0});
   
@@ -115,7 +109,6 @@ export const Editor = (args:IEditor)=>{
       
       if( attributes.length==0){
         attributes.push(keyframe);
-        console.log("1",attributes.length);
       }else{
 
         attributes.map(x=>{
@@ -152,6 +145,59 @@ export const Editor = (args:IEditor)=>{
       setSelectedLayer(newLayer);
       args.setProject({...args.project, layers:data});
 
+    }
+
+    function play() {
+      let template = `
+      @keyframes ${args.project.animation}_LAYER {
+        ###
+      }
+
+      #LAYER {
+        animation: ${args.project.animation}_LAYER 2s linear 0s infinite;
+      }
+      
+      `;
+
+      let animations:Array<any> = [];
+      
+      args.project.layers.forEach((layer,index)=>{
+        let tmp_anim = template;
+        let keyframes:any = [];
+        tmp_anim = tmp_anim.split('LAYER').join(layer.name);
+        console.group(tmp_anim)
+
+        let positions = {};
+
+        layer.attributes.forEach((attr,i)=>{
+          let _frame = [];
+          attr.keyframes.forEach((frame,e)=>{
+            let pos = (parseInt(normaliZe(frame.position.x,0,10).split(':')[0])*10) + '%';
+            //@ts-ignore
+            if(!positions[pos]){
+              //@ts-ignore
+              positions[pos] = []
+            }
+            //@ts-ignore
+            positions[pos].push(`${attr.name}:${frame.value}`)
+          })
+        });
+
+        Object.keys(positions).forEach(key=>{
+          keyframes.push(`
+          ${key}{
+            
+            ${//@ts-ignore
+              positions[key].join(';\n\t\t\t') + ';'
+            }
+          }
+          `);
+        });
+        tmp_anim = tmp_anim.split('###').join(keyframes.join('\n'));
+        animations.push(tmp_anim);
+
+      });
+      console.log(animations.join('\n'));
     }
 
    
@@ -200,7 +246,7 @@ export const Editor = (args:IEditor)=>{
                         <path d="M12.75 0C12.3357 0 12 0.335693 12 0.75L12 11.25C12 11.6643 12.3357 12 12.75 12L13.5 12C13.9143 12 14.25 11.6643 14.25 11.25L14.25 0.75C14.25 0.335693 13.9143 0 13.5 0L12.75 0L12.75 0ZM2.80493 0.310059C1.55493 -0.403076 0 0.5 0 1.93994L0 10.062C0 11.502 1.55493 12.405 2.80493 11.6899L9.91309 7.62891C11.1731 6.90894 11.1731 5.09302 9.91309 4.37305L2.80493 0.311035L2.80493 0.310059Z" id="Forma" fill="current" fillRule="evenodd" stroke="none" />
                       </svg>
                   </button>
-                  <button className='mx-3'>
+                  <button onClick={()=>play()} className='mx-3'>
                     <svg className='w-5 h-5 transform transition hover:scale-125' viewBox="0 0 10.85791 11.87915" version="1.1"  xmlns="http://www.w3.org/2000/svg">
                       <path d="M2.80493 0.249023C1.55493 -0.464111 0 0.438965 0 1.87891L0 10.001C0 11.4409 1.55493 12.344 2.80493 11.6289L9.91309 7.56787C11.1731 6.8479 11.1731 5.03198 9.91309 4.31201L2.80493 0.25L2.80493 0.249023Z" id="Forma" fill="current" fillRule="evenodd" stroke="none" />
                     </svg>
