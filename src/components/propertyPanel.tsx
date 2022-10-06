@@ -4,6 +4,7 @@ import { ILayer } from "../interfaces/CSSInMotionProject";
 import { Vector2 } from "../interfaces/timeline";
 import { useAppDispatch } from "../redux/hooks";
 import { moveLayerElement } from "../redux/projectSlice";
+import { normaliZe } from "../utils";
 import { CIMotionDropZone } from "./dropZone";
 import { Poperty } from "./Property";
 
@@ -16,6 +17,7 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
 
   function animateElement(prop:string, value:string){
     if(args.selectedLayer?.name ){
+      let posX = (parseInt(normaliZe(args.trackPosition.x,0,10).split(':')[0])*10) + '%';
 
       //@ts-ignore
       let data = {...animatedProps};
@@ -31,13 +33,13 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
         data[args.selectedLayer?.name] = {};
       }
        //@ts-ignore
-       if(!data[args.selectedLayer?.name]?.[args.trackPosition.x]){
+       if(!data[args.selectedLayer?.name]?.[posX]){
         //@ts-ignore
-        data[args.selectedLayer?.name][args.trackPosition.x] = {};
+        data[args.selectedLayer?.name][posX] = {};
       }
       //----------------------------------------------------------------
       //@ts-ignore
-      data[args.selectedLayer?.name][args.trackPosition.x][prop] = value;
+      data[args.selectedLayer?.name][posX][prop] = value;
       setAnimatedPros(data);
       //----------------------------------------------------------------
       
