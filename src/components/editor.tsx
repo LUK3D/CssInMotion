@@ -197,7 +197,19 @@ export const Editor = (args:IEditor)=>{
         animations.push(tmp_anim);
 
       });
-      console.log(animations.join('\n'));
+      
+      let previewContainer = document.getElementById('animation_preview');
+      
+      if(!previewContainer){
+        previewContainer = document.createElement('div');
+        previewContainer.id = 'animation_preview';
+        document.body.append(previewContainer);
+
+      }
+      
+      if(previewContainer){
+        previewContainer.innerHTML = ` <style> ${animations.join('\n')} </style>`
+      }
     }
 
    
