@@ -382,7 +382,7 @@ export const Editor = (args:IEditor)=>{
                 )}>
               {
                      args.project.layers.map((layer,index)=>{
-                        return <Layer onAddKeyframe={(prop:string)=>{
+                        return <Layer selectdLayer={selectedLayer} onAddKeyframe={(prop:string)=>{
                           addKey({prop:prop,val:'###'});
                         }} onSelectLayer={()=>setSelectedLayer(layer)}  text={layer.name} selector={`${index}`} key={`layer_${index}`} layer={layer}></Layer>
                     })

@@ -47,11 +47,56 @@ export const PropertyPanel = (args:{project:CSSInMotionProject, setProject:Funct
       if(args.addKey){
         args.addKey({prop:prop, val:value});
       }
-      console.log(animatedProps);
     }
     
   }
 
+
+  function Save(inMemory = false){
+    let html = document.getElementById('paper');
+    let data:{html?:string, timeline?:CSSInMotionProject} = {};
+    data.html = html?.innerHTML;
+    data.timeline = args.project;
+
+    if(inMemory){
+      let f = JSON.stringify(data, undefined, '\t');
+      localStorage.setItem('cssinmotionproject_tmp',f);
+    }else{
+      saveFile((args.project.animation.trim()!=''?args.project.animation:'New Project') + '.json',JSON.stringify(data))
+    }
+  }
+
+  function LoadProject(result:string){
+    let html = document.getElementById('paper');
+    let data:{html?:string, timeline?:CSSInMotionProject} = JSON.parse(result);
+    if(!data.html || !data.timeline){
+      return;
+    }
+    html!.innerHTML = data.html;
+    args.setProject(data.timeline);
+  }
+  useEffect(() => {
+    let data = localStorage.getItem('cssinmotionproject_tmp');
+
+    if(data){
+      setTimeout(()=>{
+        LoadProject(data!);
+      },1000)
+    }
+   setInterval(()=>{
+     Save(true);
+   },3000)
+  }, []);
+
+
+  function newProject(){
+    args.setProject({
+      animation:'new Animation',
+      layers:[]
+    });
+    document.getElementById('paper')!.innerHTML = '';
+  }
+  
  
   
 
@@ -61,24 +106,12 @@ export const PropertyPanel = (args:{project:CSSInMotionProject, setProject:Funct
               <div className="header p-2 border-b border-dark-900 flex items-center justify-between">
                 <p>Properties</p>
                <div>
-               <Button size="xs" color='gray' onClick={()=>{
-                let html = document.getElementById('paper');
-                let data:{html?:string, timeline?:CSSInMotionProject} = {};
-                data.html = html?.innerHTML;
-                data.timeline = args.project;
-
-                saveFile((args.project.animation.trim()!=''?args.project.animation:'New Project') + '.json',JSON.stringify(data))
-                
-                }} >Save</Button>
+               <Button size="xs" className="mr-2" color='gray' onClick={()=>newProject()} >New Project</Button>
+               <Button size="xs" color='gray' onClick={()=>Save()} >Save</Button>
                 <input onChange={(e)=>readTextFromInput(e,(result?:string)=>{
                   if(result){
-                    let html = document.getElementById('paper');
-                    let data:{html?:string, timeline?:CSSInMotionProject} = JSON.parse(result);
-                    if(!data.html || !data.timeline){
-                      return;
-                    }
-                    html!.innerHTML = data.html;
-                    args.setProject(data.timeline);
+                    LoadProject(result);
+                  
                   }
                 })} type="file" name="project" id="project" className="hidden" />
                <label htmlFor="project" className="px-2 bg-purple-500 text-white py-1 rounded-sm ml-2" >
