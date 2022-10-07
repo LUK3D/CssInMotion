@@ -67,6 +67,7 @@ export const PropertyPanel = (args:{project:CSSInMotionProject, setProject:Funct
   }
 
   function LoadProject(result:string){
+    newProject();
     let html = document.getElementById('paper');
     let data:{html?:string, timeline?:CSSInMotionProject} = JSON.parse(result);
     if(!data.html || !data.timeline){
@@ -185,6 +186,46 @@ export const PropertyPanel = (args:{project:CSSInMotionProject, setProject:Funct
                     </div>
                   }
                   ></Poperty>
+                  <Poperty tittle='Padding'
+                  body={
+                    <div className='w-full p-5 flex flex-col'>
+                      <div className='flex items-center justify-between mb-3'>
+                        <div className='w-2/6 flex items-center'>
+                          <p>X</p>
+                        </div>
+                        <div className='w-4/5 flex'>
+                          <NumberInput onChange={(val)=>{
+                            animateElement('paddingLeft', `${val}px`)
+                          }}  icon={'L'}className='mx-2'/>
+                          <NumberInput onChange={(val)=>{
+                            animateElement('paddingTop', `${val}px`)
+                          }}  icon={'T'}className='mx-2'/>
+                        </div>
+                      </div>
+                      <div className='flex items-center justify-between mb-3'>
+                        <div className='w-2/6 flex items-center'>
+                          <p>Y</p>
+                        </div>
+                        <div className='w-4/5 flex'>
+                          <NumberInput 
+                          onChange={(val)=>{
+                            animateElement('paddingRight', `${val}px`)
+                          }}
+                          
+                          icon={'R'}className='mx-2'/>
+                          <NumberInput 
+                          onChange={(val)=>{
+                            animateElement('paddingBottom', `${val}px`)
+                          }}
+
+                          icon={'B'}className='mx-2'/>
+                        </div>
+                      </div>
+                      
+                      
+                    </div>
+                  }
+                  ></Poperty>
                   <Poperty tittle='Layer'
                   body={
                     <div className='w-full p-5 flex flex-col'>
@@ -242,7 +283,7 @@ export const PropertyPanel = (args:{project:CSSInMotionProject, setProject:Funct
                         <div className='w-4/5 '>
                           <NumberInput
                             onChange={(val)=>{
-                              animateElement('font-size', `${val}`);
+                              animateElement('fontSize', `${val}px`);
                             }}
                           />
                         </div>
