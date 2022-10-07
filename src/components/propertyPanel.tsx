@@ -157,6 +157,43 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
                   }
                   ></Poperty>
 
+                <Poperty tittle='Text'
+                  body={
+                    <div className='w-full p-5 flex flex-col'>
+                      <div className='flex items-center justify-between mb-3'>
+                        <div className='w-2/6 flex items-center'>
+                          <p>Color</p>
+                        </div>
+                        <div className='w-4/5 '>
+                        <ColorInput 
+                           onChange={(val)=>{
+                            animateElement('color', `${val}`)
+                          }}
+                        
+                        format="rgb"  swatches={['rgb(38, 39, 43)', 'rgb(131, 138, 145)', 'rgb(250, 85, 85)', 'rgb(235, 75, 131)', 'rgb(190, 75, 219)', 'rgb(121, 80, 242)', 'rgb(74, 107, 240)', 'rgb(35, 142, 235)', 'rgb(21, 174, 194)', 'rgb(19, 186, 136)', '#40c057', '#82c91e', '#fab005', 'rgb(255, 126, 20)', 'rgba(255, 255, 55,0)']} />
+                        </div>
+                      </div>
+                      
+                      
+                      <div className='flex items-center justify-between mb-3'>
+                        <div className='w-2/6 flex items-center'>
+                          <Tooltip color={"black"} label={`It can be one of those: Center, \n top, left, right, or an X,Y values`}>
+                          <p>Size</p>
+                          </Tooltip>
+                        </div>
+                        <div className='w-4/5 '>
+                          <NumberInput
+                            onChange={(val)=>{
+                              animateElement('font-size', `${val}`);
+                            }}
+                          />
+                        </div>
+                      </div>
+                      
+                     
+                    </div>
+                  }
+                  ></Poperty>
                 <Poperty tittle='Background'
                   body={
                     <div className='w-full p-5 flex flex-col'>
@@ -170,7 +207,7 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
                             animateElement('background-color', `${val}`)
                           }}
                         
-                        format="rgb"  swatches={['#25262b', '#868e96', '#fa5252', '#e64980', '#be4bdb', '#7950f2', '#4c6ef5', '#228be6', '#15aabf', '#12b886', '#40c057', '#82c91e', '#fab005', '#fd7e14']} />
+                        format="rgb"  swatches={['rgb(38, 39, 43)', 'rgb(131, 138, 145)', 'rgb(250, 85, 85)', 'rgb(235, 75, 131)', 'rgb(190, 75, 219)', 'rgb(121, 80, 242)', 'rgb(74, 107, 240)', 'rgb(35, 142, 235)', 'rgb(21, 174, 194)', 'rgb(19, 186, 136)', 'rgb(65, 191, 88)', 'rgb(131, 201, 32)', 'rgb(255, 180, 5)', 'rgb(255, 126, 20)', 'rgba(255, 255, 55,0)']} />
                         </div>
                       </div>
                       <div className='flex items-center justify-between mb-3'>
@@ -280,7 +317,7 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
                           animateElement('border-color', `${val}`);
                         }}
                         
-                        format="rgb"  swatches={['#25262b', '#868e96', '#fa5252', '#e64980', '#be4bdb', '#7950f2', '#4c6ef5', '#228be6', '#15aabf', '#12b886', '#40c057', '#82c91e', '#fab005', '#fd7e14']} />
+                        format="rgb"  swatches={['rgb(38, 39, 43)', 'rgb(131, 138, 145)', 'rgb(250, 85, 85)', 'rgb(235, 75, 131)', 'rgb(190, 75, 219)', 'rgb(121, 80, 242)', 'rgb(74, 107, 240)', 'rgb(35, 142, 235)', 'rgb(21, 174, 194)', 'rgb(19, 186, 136)', '#40c057', '#82c91e', '#fab005', 'rgb(255, 126, 20)', 'rgba(255, 255, 55,0)']} />
                         </div>
                       </div>
                       <div className='flex items-center justify-between mb-3'>
@@ -320,7 +357,7 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
                           <p>Color</p>
                         </div>
                         <div className='w-4/5 '>
-                        <ColorInput format="rgb"  swatches={['#25262b', '#868e96', '#fa5252', '#e64980', '#be4bdb', '#7950f2', '#4c6ef5', '#228be6', '#15aabf', '#12b886', '#40c057', '#82c91e', '#fab005', '#fd7e14']} />
+                        <ColorInput format="rgb"  swatches={['rgb(38, 39, 43)', 'rgb(131, 138, 145)', 'rgb(250, 85, 85)', 'rgb(235, 75, 131)', 'rgb(190, 75, 219)', 'rgb(121, 80, 242)', 'rgb(74, 107, 240)', 'rgb(35, 142, 235)', 'rgb(21, 174, 194)', 'rgb(19, 186, 136)', '#40c057', '#82c91e', '#fab005', 'rgb(255, 126, 20)', 'rgba(255, 255, 55,0)']} />
                         </div>
                       </div>
 
