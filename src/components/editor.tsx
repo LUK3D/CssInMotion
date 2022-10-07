@@ -1,4 +1,4 @@
-import { Drawer, MantineTheme } from '@mantine/core';
+import { Button, Drawer, MantineTheme, Modal, Popover, Textarea } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import createPanZoom from 'panzoom';
 import React, { SetStateAction, useEffect, useState } from 'react';
@@ -24,6 +24,7 @@ export const Editor = (args:IEditor)=>{
     }
 
     const [opened, setOpened] = useState(false);
+    const [openedCustomElement, setOpenedCustomElement] = useState(false);
 
     const [selectedLayer, setSelectedLayer] = useState<ILayer>();
     let baseEl = <div className='w-40 h-40 bg-gray-200'></div>;
@@ -64,11 +65,14 @@ export const Editor = (args:IEditor)=>{
     }
 
     
-    function addSHape(name:string, initialPosition:Vector2 = {x:0,y:0}){
+    function addSHape(name:string, initialPosition:Vector2 = {x:0,y:0}, cunstom:string = ''){
       setlayersCount(layersCount+1);
 
       let paper = document.getElementById('paper');
       let el = document.createElement('div');
+      if(cunstom){
+        el.innerHTML = cunstom;
+      }
       el.style.width = '200px';
       el.style.height = '200px';
       el.style.background = 'gray';
@@ -98,6 +102,12 @@ export const Editor = (args:IEditor)=>{
       });
       setSelectedLayer(layer);
       
+    }
+
+    const [customEl, setCustomEl] = useState('');
+
+    function addCustom(){
+      addSHape('customElement',{x:0,y:0},customEl.trim());
     }
 
     function addKey(_args:{prop:string, val:string}){
@@ -282,6 +292,37 @@ export const Editor = (args:IEditor)=>{
                           Circle
                          </div>
                   </button>
+
+                  <Modal
+                    opened={openedCustomElement}
+                    onClose={() => setOpenedCustomElement(false)}
+                    title="Append Custom Html Element"
+                  >
+                    {
+                       <div className='w-full flex flex-col'>
+                        <Textarea
+                        minRows={10}
+                       onChange={(val)=>{
+                         setCustomEl(val.target.value??'');
+                       }}
+                        placeholder="Your custom code goes here!" size="xs" />
+                       <Button onClick={()=>{
+                        addCustom();
+                        setOpenedCustomElement(true)
+                       }} color={'green'} className='mt-2'>
+                         Create Element
+                       </Button>
+                       </div>
+                    }
+                  </Modal>
+
+                      <button onClick={() => setOpenedCustomElement(true)}  className='p-2'>
+                          <div className=' text-xs flex flex-col justify-center items-center w-20 h-10 bg-dark-700 border rounded-md border-dark-300'>
+                            Custom
+                          </div>
+                      </button>
+                      
+                 
               </div>
               <div id='canvas' className="col-span-10 canvas h-full relative flex justify-center items-center">
                   <div id='paper' className=" w-[400px] h-[400px] bg-white relative ">
