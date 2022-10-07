@@ -94,7 +94,7 @@ export const PropertyPanel = (args:{project:CSSInMotionProject, setProject:Funct
     document.getElementById('animation_preview')?.remove();
 
     args.setProject({
-      animation:'new_Animation',
+      animation:'',
       layers:[]
     });
     document.getElementById('paper')!.innerHTML = '';
