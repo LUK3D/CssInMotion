@@ -1,14 +1,14 @@
-import { Checkbox, ColorInput, NumberInput, SegmentedControl, Slider, TextInput, Tooltip } from "@mantine/core";
+import { Button, Checkbox, ColorInput, NumberInput, SegmentedControl, Slider, TextInput, Tooltip } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { ILayer } from "../interfaces/CSSInMotionProject";
+import { CSSInMotionProject, ILayer } from "../interfaces/CSSInMotionProject";
 import { Vector2 } from "../interfaces/timeline";
 import { useAppDispatch } from "../redux/hooks";
 import { moveLayerElement } from "../redux/projectSlice";
-import { normaliZe } from "../utils";
+import { normaliZe, readTextFromInput, saveFile } from "../utils";
 import { CIMotionDropZone } from "./dropZone";
 import { Poperty } from "./Property";
 
-export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2, addKey:Function})=>{
+export const PropertyPanel = (args:{project:CSSInMotionProject, setProject:Function, selectedLayer?:ILayer, trackPosition:Vector2, addKey:Function})=>{
   const dispatcher = useAppDispatch();
   var selectedId = '';
   let el: HTMLElement | null
@@ -58,8 +58,19 @@ export const PropertyPanel = (args:{selectedLayer?:ILayer, trackPosition:Vector2
   
     return(
         <div className='h-full  overflow-y-auto col-span-3 border-l border-dark-900 flex flex-col'>
-              <div className="header p-2 border-b border-dark-900">
+              <div className="header p-2 border-b border-dark-900 flex items-center justify-between">
                 <p>Properties</p>
+               <div>
+               <Button size="xs" color='gray' onClick={()=>saveFile((args.project.animation.trim()!=''?args.project.animation:'New Project') + '.json',JSON.stringify(args.project))} >Save</Button>
+                <input onChange={(e)=>readTextFromInput(e,(result?:string)=>{
+                  if(result){
+                    args.setProject(JSON.parse(result));
+                  }
+                })} type="file" name="project" id="project" className="hidden" />
+               <label htmlFor="project" className="px-2 bg-purple-500 text-white py-1 rounded-sm ml-2" >
+               Load Project
+               </label>
+               </div>
               </div>
               <div className='h-full w-full overflow-y-auto flex flex-col'>
                   <Poperty tittle='Transform'

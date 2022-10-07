@@ -25,3 +25,24 @@
         document.getElementById("layers_frames")!.scrollTop = scroll;
         document.getElementById("layers")!.scrollTop = scroll;
       }
+
+
+     export function saveFile(name:string, data:string) {
+        let a = document.createElement("a");
+        if (typeof a.download !== "undefined") a.download = name;
+        a.href = URL.createObjectURL(new Blob([data], {
+            type: "application/octet-stream"
+        }));
+        a.dispatchEvent(new MouseEvent("click"));
+        a.remove();
+    }
+
+
+    export async function readTextFromInput(event:React.ChangeEvent<HTMLInputElement>, callBack:Function) {
+      const file = event.target.files?.item(0)
+      const text = await file?.text();
+      if(callBack){
+        callBack(text)
+      }
+      
+    }

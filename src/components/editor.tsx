@@ -289,13 +289,8 @@ export const Editor = (args:IEditor)=>{
               <div className='h-full col-span-1 bg-dark-600 z-20 flex flex-col items-center'>
                   <p className='p-3 border-0 border-b border-dark-900 w-full text-center'>Primitives</p>
                   <button onClick={()=>addSHape('Rectangle',{x:30,y:30})} className='p-2'>
-                         <div className=' text-xs flex flex-col justify-center items-center w-20 h-20 bg-dark-700 border rounded-md border-dark-300'>
+                         <div className=' text-xs flex flex-col justify-center items-center w-20 h-10 bg-dark-700 border rounded-md border-dark-300'>
                           Rectangle
-                         </div>
-                  </button>
-                  <button onClick={()=>addSHape('Circle',{x:0,y:0})} className='p-2'>
-                         <div className=' text-xs flex flex-col justify-center items-center w-20 h-20 bg-dark-700 border rounded-full border-dark-300'>
-                          Circle
                          </div>
                   </button>
 
@@ -429,7 +424,7 @@ export const Editor = (args:IEditor)=>{
             </div>
           </div>
       </div>
-      <PropertyPanel addKey={addKey}  selectedLayer={selectedLayer} trackPosition={trackPosition}></PropertyPanel>
+      <PropertyPanel project={args.project} setProject={args.setProject} addKey={addKey}  selectedLayer={selectedLayer} trackPosition={trackPosition}></PropertyPanel>
 
       <Drawer
         opened={opened}
