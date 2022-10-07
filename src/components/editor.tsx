@@ -167,7 +167,13 @@ export const Editor = (args:IEditor)=>{
 
 
       let newLayer:ILayer = {animated:true,attributes:final_attributes,name:selectedLayer!.name,show_keyframes:true};
-      let data:Array<ILayer> = [...layers, newLayer];
+      let data:Array<ILayer> = [];
+      if(args.project.layers.filter(l=>l.name == newLayer.name).length>0){
+        data = args.project.layers.map(l=>l.name==newLayer.name?newLayer:l);
+      }else{
+        data = [...layers, newLayer];
+      }
+      
       setSelectedLayer(newLayer);
       args.setProject({...args.project, layers:data});
 
