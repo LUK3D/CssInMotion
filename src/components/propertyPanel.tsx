@@ -61,10 +61,24 @@ export const PropertyPanel = (args:{project:CSSInMotionProject, setProject:Funct
               <div className="header p-2 border-b border-dark-900 flex items-center justify-between">
                 <p>Properties</p>
                <div>
-               <Button size="xs" color='gray' onClick={()=>saveFile((args.project.animation.trim()!=''?args.project.animation:'New Project') + '.json',JSON.stringify(args.project))} >Save</Button>
+               <Button size="xs" color='gray' onClick={()=>{
+                let html = document.getElementById('paper');
+                let data:{html?:string, timeline?:CSSInMotionProject} = {};
+                data.html = html?.innerHTML;
+                data.timeline = args.project;
+
+                saveFile((args.project.animation.trim()!=''?args.project.animation:'New Project') + '.json',JSON.stringify(data))
+                
+                }} >Save</Button>
                 <input onChange={(e)=>readTextFromInput(e,(result?:string)=>{
                   if(result){
-                    args.setProject(JSON.parse(result));
+                    let html = document.getElementById('paper');
+                    let data:{html?:string, timeline?:CSSInMotionProject} = JSON.parse(result);
+                    if(!data.html || !data.timeline){
+                      return;
+                    }
+                    html!.innerHTML = data.html;
+                    args.setProject(data.timeline);
                   }
                 })} type="file" name="project" id="project" className="hidden" />
                <label htmlFor="project" className="px-2 bg-purple-500 text-white py-1 rounded-sm ml-2" >
