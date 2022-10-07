@@ -91,6 +91,8 @@ export const PropertyPanel = (args:{project:CSSInMotionProject, setProject:Funct
 
 
   function newProject(){
+    document.getElementById('animation_preview')?.remove();
+
     args.setProject({
       animation:'new Animation',
       layers:[]
